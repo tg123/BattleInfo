@@ -1,4 +1,7 @@
 ## Interface: 11303
 ## Title: Battle Info
+## Author: Boshi Lian(farmer1992@gmail.com)
+## Version: @project-version
 
+locales.lua
 core.lua
