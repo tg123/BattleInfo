@@ -1,0 +1,4 @@
+package-as: BattleInfo
+enable-nolib-creation: false
+ignore:
+  - README.md
