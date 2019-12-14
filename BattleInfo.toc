@@ -4,4 +4,4 @@
 ## Version: @project-version
 
 locales.lua
-core.lua
+newbattle.lua

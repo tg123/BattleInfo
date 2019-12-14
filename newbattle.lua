@@ -6,6 +6,10 @@ local battleList = {}
 local battleListOld = {}
 
 local function CloneToOld(map)
+    if not battleListOld[map] then
+        battleListOld[map] = {}
+    end
+
     table.wipe(battleListOld[map])
 
     for instanceID in pairs(battleList[map] or {})  do
@@ -21,6 +25,10 @@ local function UpdateBattleListCache()
     end
 
     CloneToOld(mapName)
+
+    if not battleList[mapName] then
+        battleList[mapName] = {}
+    end
     table.wipe(battleList[mapName])
     
     for i = 1, GetNumBattlefields()  do
