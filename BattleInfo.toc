@@ -1,5 +1,26 @@
 ## Interface: 11303
 ## Title: Battle Info
+## Title-deDE: @localization(locale="deDE", key="TITLE")@
+## Title-esES: @localization(locale="esES", key="TITLE")@
+## Title-esMX: @localization(locale="esMX", key="TITLE")@
+## Title-frFR: @localization(locale="frFR", key="TITLE")@
+## Title-itIT: @localization(locale="itIT", key="TITLE")@
+## Title-koKR: @localization(locale="koKR", key="TITLE")@
+## Title-ptBR: @localization(locale="ptBR", key="TITLE")@
+## Title-ruRU: @localization(locale="ruRU", key="TITLE")@
+## Title-zhCN: @localization(locale="zhCN", key="TITLE")@
+## Title-zhTW: @localization(locale="zhTW", key="TITLE")@
+## Notes: @localization(locale="enUS", key="TOC_NOTES")@
+## Notes-deDE: @localization(locale="deDE", key="TOC_NOTES")@
+## Notes-esES: @localization(locale="esES", key="TOC_NOTES")@
+## Notes-esMX: @localization(locale="esMX", key="TOC_NOTES")@
+## Notes-frFR: @localization(locale="frFR", key="TOC_NOTES")@
+## Notes-itIT: @localization(locale="itIT", key="TOC_NOTES")@
+## Notes-koKR: @localization(locale="koKR", key="TOC_NOTES")@
+## Notes-ptBR: @localization(locale="ptBR", key="TOC_NOTES")@
+## Notes-ruRU: @localization(locale="ruRU", key="TOC_NOTES")@
+## Notes-zhCN: @localization(locale="zhCN", key="TOC_NOTES")@
+## Notes-zhTW: @localization(locale="zhTW", key="TOC_NOTES")@
 ## Author: Boshi Lian(farmer1992@gmail.com)
 ## Version: @project-version
 
