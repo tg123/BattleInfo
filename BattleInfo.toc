@@ -25,4 +25,6 @@
 ## Version: @project-version
 
 locales.lua
+event.lua
+quickjoin.lua
 newbattle.lua
