@@ -154,13 +154,25 @@ RegEvent("ADDON_LOADED", function()
         f.num = num
 
         local tooltip = CreateFrame("GameTooltip", "BattleInfoNumber" .. random(10000), UIParent, "GameTooltipTemplate")
+
+        local classLoc = {}
+        FillLocalizedClassList(classLoc)
+
+        local factionLoc = {}
+        factionLoc[0] = C_CreatureInfo.GetFactionInfo(1).name
+        factionLoc[1] = C_CreatureInfo.GetFactionInfo(2).name
+
         local showTooltip = function(faction)
+            if not num.stat then
+                return
+            end
             tooltip:SetOwner(num, "ANCHOR_LEFT")
-            tooltip:SetText(L["BattleInfo"])
-            tooltip:AddLine()
+            tooltip:SetText(factionLoc[faction])
+            tooltip:AddLine(" ")
 
             for c, n in pairs(num.stat[faction]) do
-                tooltip:AddLine(c .. " " .. n)
+                local color = GetClassColorObj(c)
+                tooltip:AddDoubleLine(color:WrapTextInColorCode(classLoc[c]), n)
             end
 
             tooltip:Show()
