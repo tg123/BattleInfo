@@ -40,6 +40,12 @@ end
 
 local function ShowAll()
     f:Show()
+
+    if IsInAlterac() then
+        f.av:Show()
+    else
+        f.av:Hide()
+    end
 end
 
 local function OnUpdate()
@@ -56,13 +62,9 @@ local function OnUpdate()
     RequestBattlefieldScoreData()
 end
 
-RegEvent("PLAYER_ENTERING_WORLD", function()
-    if IsInAlterac() then
-        f.av:Show()
-    else
-        f.av:Hide()
-    end
-end)
+-- RegEvent("PLAYER_ENTERING_WORLD", function()
+
+-- end)
 
 RegEvent("UPDATE_BATTLEFIELD_SCORE", function()
 
