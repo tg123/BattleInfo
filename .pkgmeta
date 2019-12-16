@@ -2,3 +2,5 @@ package-as: BattleInfo
 enable-nolib-creation: false
 ignore:
   - README.md
+  - extract_locale.sh
+  - LICENSE
