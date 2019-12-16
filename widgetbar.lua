@@ -10,8 +10,8 @@ local spirittime
 
 local function GetSpiritHealerText()
 	if spirittime then
-		c = 30015
-		x = mod(c - mod((( GetTime() - spirittime)) * 1000, c), c) / 1000 + 1
+		local c = 30015
+		local x = mod(c - mod((( GetTime() - spirittime)) * 1000, c), c) / 1000 + 1
 		if x > 30 then
 			return L["Spirit healing ..."]
         end
@@ -51,7 +51,7 @@ local function UpdateAlteracNumbers()
     local areaPOIs = C_AreaPoiInfo.GetAreaPOIForMap(mapId);
     local textures = C_Map.GetMapArtLayerTextures(mapId, 1);
 
-	for i, areaPoiID in ipairs(areaPOIs) do
+	for _, areaPoiID in ipairs(areaPOIs) do
 		local poiInfo = C_AreaPoiInfo.GetAreaPOIInfo(mapId, areaPoiID);
         if poiInfo then
             -- print(poiInfo.name)
