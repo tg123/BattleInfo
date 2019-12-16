@@ -75,7 +75,7 @@ RegEvent("UPDATE_BATTLEFIELD_SCORE", function()
     stat[0] = {}
     stat[1] = {}
 
-    for i = 1, GetNumBattlefieldScores() do
+    for i = 1, 80 do
         local playerName, _, _, _, _, faction, _, _, _, filename = GetBattlefieldScore(i)
         if faction == 0 then
             a = a + 1
