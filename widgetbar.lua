@@ -34,6 +34,46 @@ local function IsInAlterac()
     return GetRealZoneText() == info.name
 end
 
+local function UpdateAlteracNumbers()
+
+    -- Horde Graveyard 12
+    -- Alliance Graveyard 14
+    -- Alliance Tower 10
+    -- Horde Tower 9
+    
+    if not IsInAlterac() then
+        return
+    end
+
+    local data = {}
+
+    local mapId = 1459 -- alterac 
+    local areaPOIs = C_AreaPoiInfo.GetAreaPOIForMap(mapId);
+    local textures = C_Map.GetMapArtLayerTextures(mapId, 1);
+
+	for i, areaPoiID in ipairs(areaPOIs) do
+		local poiInfo = C_AreaPoiInfo.GetAreaPOIInfo(mapId, areaPoiID);
+        if poiInfo then
+            -- print(poiInfo.name)
+            -- print(poiInfo.description)
+            -- print(poiInfo.textureIndex)
+            local t = poiInfo.textureIndex
+
+            if not data[t] then
+                data[t] = 0
+            end
+
+            data[t] = data[t] + 1
+		end
+    end
+    
+    for t, n in pairs(data) do
+        if f.av.nums[t] then
+            f.av.nums[t]:SetText(n)
+        end
+    end
+end
+
 local function HideAll()
     f:Hide()
 end
@@ -60,6 +100,7 @@ local function OnUpdate()
     f.elapselabel:SetText(SecondsToTime(GetBattlefieldInstanceRunTime()/1000))
 
     RequestBattlefieldScoreData()
+    UpdateAlteracNumbers()
 end
 
 -- RegEvent("PLAYER_ENTERING_WORLD", function()
@@ -117,6 +158,8 @@ RegEvent("ADDON_LOADED", function()
         av:SetAllPoints()
         f.av = av
 
+        av.nums = {}
+
         do
             local t = av:CreateTexture(nil, "BACKGROUND")
             t:SetAtlas("alliance_icon_horde_flag-icon")
@@ -124,9 +167,38 @@ RegEvent("ADDON_LOADED", function()
             t:SetHeight(42)
             t:SetPoint("TOP", av, "TOP", -3, 0)
 
+        end
+
+        do
+            local t = av:CreateTexture(nil, "BACKGROUND")
+            t:SetPoint("TOP", av, "TOP", 15, -5)
+            t:SetWidth(16);
+            t:SetHeight(16);
+            t:SetTexture("Interface/Minimap/POIIcons");
+            
+            local x1, x2, y1, y2 = GetPOITextureCoords(10) -- Alliance Tower
+            t:SetTexCoord(x1, x2, y1, y2);
+
             local l = av:CreateFontString(nil, "BACKGROUND", "GameFontNormalSmall")
-            l:SetPoint("TOPLEFT", t, "TOPLEFT", 30, -5)
-            l:SetText(C_CreatureInfo.GetFactionInfo(1).name)
+            l:SetPoint("TOPLEFT", t, "TOPLEFT", 20, -3)
+            l:SetText("?")
+            av.nums[10] = l
+        end
+
+        do
+            local t = av:CreateTexture(nil, "BACKGROUND")
+            t:SetPoint("TOP", av, "TOP", 50, -5)
+            t:SetWidth(16);
+            t:SetHeight(16);
+            t:SetTexture("Interface/Minimap/POIIcons");
+            
+            local x1, x2, y1, y2 = GetPOITextureCoords(14) -- Alliance Graveyard 
+            t:SetTexCoord(x1, x2, y1, y2);
+
+            local l = av:CreateFontString(nil, "BACKGROUND", "GameFontNormalSmall")
+            l:SetPoint("TOPLEFT", t, "TOPLEFT", 20, -3)
+            l:SetText("?")
+            av.nums[14] = l
         end
 
         do
@@ -136,10 +208,42 @@ RegEvent("ADDON_LOADED", function()
             t:SetHeight(42)
             t:SetPoint("TOP", av, "TOP", -3, -25)
 
-            local l = av:CreateFontString(nil, "BACKGROUND", "GameFontNormalSmall")
-            l:SetPoint("TOPLEFT", t, "TOPLEFT", 30, -5)
-            l:SetText(C_CreatureInfo.GetFactionInfo(2).name)       
+            -- local l = av:CreateFontString(nil, "BACKGROUND", "GameFontNormalSmall")
+            -- l:SetPoint("TOPLEFT", t, "TOPLEFT", 30, -5)
+            -- l:SetText(C_CreatureInfo.GetFactionInfo(2).name)       
         end
+
+        do
+            local t = av:CreateTexture(nil, "BACKGROUND")
+            t:SetPoint("TOP", av, "TOP", 15, -27)
+            t:SetWidth(16);
+            t:SetHeight(16);
+            t:SetTexture("Interface/Minimap/POIIcons");
+            
+            local x1, x2, y1, y2 = GetPOITextureCoords(9) -- Horde Tower
+            t:SetTexCoord(x1, x2, y1, y2);
+
+            local l = av:CreateFontString(nil, "BACKGROUND", "GameFontNormalSmall")
+            l:SetPoint("TOPLEFT", t, "TOPLEFT", 20, -3)
+            l:SetText("?")
+            av.nums[9] = l
+        end
+
+        do
+            local t = av:CreateTexture(nil, "BACKGROUND")
+            t:SetPoint("TOP", av, "TOP", 50, -27)
+            t:SetWidth(16);
+            t:SetHeight(16);
+            t:SetTexture("Interface/Minimap/POIIcons");
+            
+            local x1, x2, y1, y2 = GetPOITextureCoords(12) -- Horde Graveyard 
+            t:SetTexCoord(x1, x2, y1, y2);
+
+            local l = av:CreateFontString(nil, "BACKGROUND", "GameFontNormalSmall")
+            l:SetPoint("TOPLEFT", t, "TOPLEFT", 20, -3)
+            l:SetText("?")
+            av.nums[12] = l
+        end        
     end
 
     do
