@@ -50,8 +50,7 @@ RegEvent("ADDON_LOADED", function()
                 SetSelectedBattlefield(idx)
                 BattlefieldFrame_Update()
             else
-                local colorCode = RED_FONT_COLOR:GenerateHexColor()
-                b = WrapTextInColorCode(b, colorCode)
+                b = RED_FONT_COLOR:WrapTextInColorCode(b)
 
                 GameTooltip:SetText(L["Cannot find battleground %s"]:format(b))
             end
