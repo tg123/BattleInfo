@@ -29,17 +29,19 @@ local function UpdatepiritHealerText()
     f.spiritlabel:SetText(GetSpiritHealerText())
 end
 
+local MAPID_ALTERAC = 1459
+
 local function IsInAlterac()
-    local info = C_Map.GetMapInfo(1459)
+    local info = C_Map.GetMapInfo(MAPID_ALTERAC)
     return GetRealZoneText() == info.name
 end
 
 local function UpdateAlteracNumbers()
 
-    -- Horde Graveyard 12
-    -- Alliance Graveyard 14
     -- Alliance Tower 10
+    -- Alliance Graveyard 14
     -- Horde Tower 9
+    -- Horde Graveyard 12
     
     if not IsInAlterac() then
         return
@@ -47,12 +49,11 @@ local function UpdateAlteracNumbers()
 
     local data = {}
 
-    local mapId = 1459 -- alterac 
-    local areaPOIs = C_AreaPoiInfo.GetAreaPOIForMap(mapId);
-    local textures = C_Map.GetMapArtLayerTextures(mapId, 1);
+    local areaPOIs = C_AreaPoiInfo.GetAreaPOIForMap(MAPID_ALTERAC)
+    local textures = C_Map.GetMapArtLayerTextures(MAPID_ALTERAC, 1) -- 1 for layer id, should be a const value
 
 	for _, areaPoiID in ipairs(areaPOIs) do
-		local poiInfo = C_AreaPoiInfo.GetAreaPOIInfo(mapId, areaPoiID);
+		local poiInfo = C_AreaPoiInfo.GetAreaPOIInfo(MAPID_ALTERAC, areaPoiID)
         if poiInfo then
             -- print(poiInfo.name)
             -- print(poiInfo.description)
@@ -107,6 +108,9 @@ end
 
 -- end)
 
+local FACTION_HORDE = 0
+local FACTION_ALLIANCE = 1
+
 RegEvent("UPDATE_BATTLEFIELD_SCORE", function()
 
     local a = 0
@@ -118,9 +122,9 @@ RegEvent("UPDATE_BATTLEFIELD_SCORE", function()
 
     for i = 1, 80 do
         local playerName, _, _, _, _, faction, _, _, _, filename = GetBattlefieldScore(i)
-        if faction == 0 then
+        if faction == FACTION_ALLIANCE then
             a = a + 1
-        elseif faction == 1 then
+        elseif faction == FACTION_HORDE then
             h = h + 1
         end
 
@@ -269,8 +273,8 @@ RegEvent("ADDON_LOADED", function()
         FillLocalizedClassList(classLoc)
 
         local factionLoc = {}
-        factionLoc[0] = C_CreatureInfo.GetFactionInfo(1).name
-        factionLoc[1] = C_CreatureInfo.GetFactionInfo(2).name
+        factionLoc[FACTION_ALLIANCE] = C_CreatureInfo.GetFactionInfo(1).name
+        factionLoc[FACTION_HORDE] = C_CreatureInfo.GetFactionInfo(2).name
 
         local showTooltip = function(faction)
             if not num.stat then
@@ -298,7 +302,7 @@ RegEvent("ADDON_LOADED", function()
             t:SetPoint("TOPLEFT", num, 0, -7)
             t:SetSize(35, 10)
             t:SetScript("OnEnter", function()
-                showTooltip(0)
+                showTooltip(FACTION_ALLIANCE)
             end)
             t:SetScript("OnLeave", hideTooltip)
 
@@ -314,7 +318,7 @@ RegEvent("ADDON_LOADED", function()
             t:SetPoint("TOPLEFT", num, 0, -30)
             t:SetSize(35, 21)
             t:SetScript("OnEnter", function()
-                showTooltip(1)
+                showTooltip(FACTION_HORDE)
             end)
             t:SetScript("OnLeave", hideTooltip)
 
