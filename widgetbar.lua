@@ -83,6 +83,10 @@ RegEvent("UPDATE_BATTLEFIELD_SCORE", function()
             h = h + 1
         end
 
+        if not filename then
+            return
+        end
+
         if not stat[faction][filename] then
             stat[faction][filename] = 0
         end
@@ -121,7 +125,7 @@ RegEvent("ADDON_LOADED", function()
             t:SetPoint("TOP", av, "TOP", -3, 0)
 
             local l = av:CreateFontString(nil, "BACKGROUND", "GameFontNormalSmall")
-            l:SetPoint("TOP", t, "TOP", 30, -5)
+            l:SetPoint("TOPLEFT", t, "TOPLEFT", 30, -5)
             l:SetText(C_CreatureInfo.GetFactionInfo(1).name)
         end
 
@@ -133,7 +137,7 @@ RegEvent("ADDON_LOADED", function()
             t:SetPoint("TOP", av, "TOP", -3, -25)
 
             local l = av:CreateFontString(nil, "BACKGROUND", "GameFontNormalSmall")
-            l:SetPoint("TOP", t, "TOP", 30, -5)
+            l:SetPoint("TOPLEFT", t, "TOPLEFT", 30, -5)
             l:SetText(C_CreatureInfo.GetFactionInfo(2).name)       
         end
     end
