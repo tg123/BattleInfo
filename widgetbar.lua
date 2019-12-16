@@ -121,7 +121,7 @@ RegEvent("ADDON_LOADED", function()
             t:SetPoint("TOP", av, "TOP", -3, 0)
 
             local l = av:CreateFontString(nil, "BACKGROUND", "GameFontNormalSmall")
-            l:SetPoint("TOP", t, "TOP", 35, -5)
+            l:SetPoint("TOP", t, "TOP", 30, -5)
             l:SetText(C_CreatureInfo.GetFactionInfo(1).name)
         end
 
