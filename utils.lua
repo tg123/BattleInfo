@@ -8,6 +8,7 @@ ADDONSELF.Print = function(msg)
 end
 
 ADDONSELF.InBattleground = function()
+    -- return true
     return UnitInBattleground("player")
 end
 

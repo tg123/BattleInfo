@@ -2,7 +2,10 @@ local _, ADDONSELF = ...
 local L = ADDONSELF.L
 local RegEvent = ADDONSELF.regevent
 
-local spiritlabel
+local f = CreateFrame("Frame", nil, UIWidgetTopCenterContainerFrame)
+f:SetAllPoints()
+
+
 local spirittime
 
 local function GetSpiritHealerText()
@@ -12,7 +15,7 @@ local function GetSpiritHealerText()
 		if x > 30 then
 			return L["Spirit healing ..."]
         end
-		return L["Spirit heal AE in: %s seconds"]:format(GREEN_FONT_COLOR:WrapTextInColorCode(floor(x)))
+		return L["Spirit heal AE in: %s Secs"]:format(GREEN_FONT_COLOR:WrapTextInColorCode(floor(x)))
 	else
 		return L["Spirit heal AE: not dead"]
 	end
@@ -23,7 +26,7 @@ local function UpdatepiritHealerText()
         spirittime = GetTime() + GetAreaSpiritHealerTime()
     end
 
-    spiritlabel:SetText(GetSpiritHealerText())
+    f.spiritlabel:SetText(GetSpiritHealerText())
 end
 
 local function IsInAlterac()
@@ -32,13 +35,12 @@ local function IsInAlterac()
 end
 
 local function HideAll()
-    spiritlabel:Hide()
+    f:Hide()
 end
 
 local function ShowAll()
-    spiritlabel:Show()
+    f:Show()
 end
-
 
 local function OnUpdate()
     if not ADDONSELF.InBattleground() then
@@ -48,8 +50,50 @@ local function OnUpdate()
 
     ShowAll()
     UpdatepiritHealerText()
+
+    f.elapselabel:SetText(SecondsToTime(GetBattlefieldInstanceRunTime()/1000))
+
+    RequestBattlefieldScoreData()
 end
 
+RegEvent("PLAYER_ENTERING_WORLD", function()
+    if IsInAlterac() then
+        f.av:Show()
+    else
+        f.av:Hide()
+    end
+end)
+
+RegEvent("UPDATE_BATTLEFIELD_SCORE", function()
+
+    local a = 0
+    local h = 0
+    
+    local stat = {}
+    stat[0] = {}
+    stat[1] = {}
+
+    for i = 1, GetNumBattlefieldScores() do
+        local playerName, _, _, _, _, faction, _, _, _, filename = GetBattlefieldScore(i)
+        if faction == 0 then
+            a = a + 1
+        elseif faction == 1 then
+            h = h + 1
+        end
+
+        if not stat[faction][filename] then
+            stat[faction][filename] = 0
+        end
+
+        stat[faction][filename] = stat[faction][filename] + 1
+        -- print(faction)
+        -- local playerName = GetBattlefieldScore(i);
+    end
+
+    f.num.alliance:SetText(a)
+    f.num.horde:SetText(h)
+    f.num.stat = stat
+end)
 
 RegEvent("ADDON_LOADED", function()
 
@@ -62,10 +106,107 @@ RegEvent("ADDON_LOADED", function()
     --     end
     -- end
 
+    do 
+        local av = CreateFrame("Frame", nil, f)
+        av:SetAllPoints()
+        f.av = av
+
+        do
+            local t = av:CreateTexture(nil, "BACKGROUND")
+            t:SetAtlas("alliance_icon_horde_flag-icon")
+            t:SetWidth(42)
+            t:SetHeight(42)
+            t:SetPoint("TOP", av, "TOP", -3, 0)
+
+            local l = av:CreateFontString(nil, "BACKGROUND", "GameFontNormalSmall")
+            l:SetPoint("TOP", t, "TOP", 35, -5)
+            l:SetText(C_CreatureInfo.GetFactionInfo(1).name)
+        end
+
+        do
+            local t = av:CreateTexture(nil, "BACKGROUND")
+            t:SetAtlas("horde_icon_alliance_flag-icon")
+            t:SetWidth(42)
+            t:SetHeight(42)
+            t:SetPoint("TOP", av, "TOP", -3, -25)
+
+            local l = av:CreateFontString(nil, "BACKGROUND", "GameFontNormalSmall")
+            l:SetPoint("TOP", t, "TOP", 30, -5)
+            l:SetText(C_CreatureInfo.GetFactionInfo(2).name)       
+        end
+    end
+
     do
-        local l = UIWidgetTopCenterContainerFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-        l:SetPoint("TOPLEFT", UIWidgetTopCenterContainerFrame, -15, 12)
-        spiritlabel = l
+
+        local l = f:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+        l:SetPoint("TOPLEFT", f, -15, 12)
+        f.spiritlabel = l
+
+    end
+
+
+    do
+        local num = CreateFrame("Frame", nil, f)
+        num:SetSize(35, 42)
+        num:SetPoint("TOPLEFT", f, -35, 0)
+
+        num:SetScript("OnLeave", hideTooltip)
+        f.num = num
+
+        local tooltip = CreateFrame("GameTooltip", "BattleInfoNumber" .. random(10000), UIParent, "GameTooltipTemplate")
+        local showTooltip = function(faction)
+            tooltip:SetOwner(num, "ANCHOR_LEFT")
+            tooltip:SetText(L["BattleInfo"])
+            tooltip:AddLine()
+
+            for c, n in pairs(num.stat[faction]) do
+                tooltip:AddLine(c .. " " .. n)
+            end
+
+            tooltip:Show()
+        end
+
+        local hideTooltip = function()
+            tooltip:Hide()
+            tooltip:SetOwner(UIParent, "ANCHOR_NONE")
+        end        
+
+        do
+            local t =  CreateFrame("Frame", nil, num)
+            t:SetPoint("TOPLEFT", num, 0, -7)
+            t:SetSize(35, 10)
+            t:SetScript("OnEnter", function()
+                showTooltip(0)
+            end)
+            t:SetScript("OnLeave", hideTooltip)
+
+
+            local l = t:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+            l:SetPoint("TOPLEFT", num, 0, -7)
+            f.num.alliance = l
+            -- l:SetText("10")
+        end
+
+        do
+            local t =  CreateFrame("Frame", nil, num)
+            t:SetPoint("TOPLEFT", num, 0, -30)
+            t:SetSize(35, 21)
+            t:SetScript("OnEnter", function()
+                showTooltip(1)
+            end)
+            t:SetScript("OnLeave", hideTooltip)
+
+            local l = t:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+            l:SetPoint("TOPLEFT", num, 0, -30)
+            f.num.horde = l
+            -- l:SetText("20")
+        end
+    end
+
+    do
+        local l = f:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+        l:SetPoint("TOPLEFT", f, -15, -50)
+        f.elapselabel = l
     end
 
     UIWidgetTopCenterContainerFrame:HookScript("OnUpdate", OnUpdate)
