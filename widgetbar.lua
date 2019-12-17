@@ -128,15 +128,13 @@ RegEvent("UPDATE_BATTLEFIELD_SCORE", function()
             h = h + 1
         end
 
-        if not filename then
-            return
-        end
+        if filename then
+            if not stat[faction][filename] then
+                stat[faction][filename] = 0
+            end
 
-        if not stat[faction][filename] then
-            stat[faction][filename] = 0
+            stat[faction][filename] = stat[faction][filename] + 1
         end
-
-        stat[faction][filename] = stat[faction][filename] + 1
         -- print(faction)
         -- local playerName = GetBattlefieldScore(i);
     end
@@ -280,6 +278,10 @@ RegEvent("ADDON_LOADED", function()
             if not num.stat then
                 return
             end
+            if #num.stat == 0 then
+                return
+            end
+            
             tooltip:SetOwner(num, "ANCHOR_LEFT")
             tooltip:SetText(factionLoc[faction])
             tooltip:AddLine(" ")
