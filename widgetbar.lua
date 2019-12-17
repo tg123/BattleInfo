@@ -185,6 +185,10 @@ local function UpdateAlteracNumbers()
             data[t] = data[t] + 1
 		end
     end
+
+    for _, l in pairs(f.av.nums) do
+        l:SetText("0")
+    end
     
     for t, n in pairs(data) do
         if f.av.nums[t] then
