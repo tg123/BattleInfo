@@ -268,9 +268,7 @@ RegEvent("ADDON_LOADED", function()
     --     end
     -- end
    
-
     do
-
         local l = f:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
         l:SetPoint("TOPLEFT", f, -15, 12)
         f.spiritlabel = l
@@ -279,14 +277,29 @@ RegEvent("ADDON_LOADED", function()
 
 
     do
+        local tooltip = CreateFrame("GameTooltip", "BattleInfoNumber" .. random(10000), UIParent, "GameTooltipTemplate")
+
+        UIWidgetTopCenterContainerFrame:SetMovable(true)
+        local dragStart = function()
+            tooltip:Hide()
+
+            if IsAltKeyDown() then
+                UIWidgetTopCenterContainerFrame:StartMoving()
+            end
+        end
+
+        local dragStop = function()
+            UIWidgetTopCenterContainerFrame:StopMovingOrSizing()
+        end
+
         local num = CreateFrame("Frame", nil, f)
         num:SetSize(35, 42)
         num:SetPoint("TOPLEFT", f, -35, 0)
 
         num:SetScript("OnLeave", hideTooltip)
+
         f.num = num
 
-        local tooltip = CreateFrame("GameTooltip", "BattleInfoNumber" .. random(10000), UIParent, "GameTooltipTemplate")
 
         local classLoc = {}
         FillLocalizedClassList(classLoc)
@@ -328,7 +341,9 @@ RegEvent("ADDON_LOADED", function()
                 showTooltip(FACTION_ALLIANCE)
             end)
             t:SetScript("OnLeave", hideTooltip)
-
+            t:RegisterForDrag("LeftButton")
+            t:SetScript("OnDragStart", dragStart)
+            t:SetScript("OnDragStop", dragStop)
 
             local l = t:CreateFontString(nil, "ARTWORK", "GameFontNormal")
             l:SetPoint("TOPLEFT", num, 0, -7)
@@ -344,6 +359,9 @@ RegEvent("ADDON_LOADED", function()
                 showTooltip(FACTION_HORDE)
             end)
             t:SetScript("OnLeave", hideTooltip)
+            t:RegisterForDrag("LeftButton")
+            t:SetScript("OnDragStart", dragStart)
+            t:SetScript("OnDragStop", dragStop)
 
             local l = t:CreateFontString(nil, "ARTWORK", "GameFontNormal")
             l:SetPoint("TOPLEFT", num, 0, -30)
