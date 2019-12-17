@@ -5,7 +5,6 @@ local RegEvent = ADDONSELF.regevent
 local f = CreateFrame("Frame", nil, UIWidgetTopCenterContainerFrame)
 f:SetAllPoints()
 
-
 local spirittime
 
 local function GetSpiritHealerText()
@@ -104,30 +103,23 @@ local function OnUpdate()
     UpdateAlteracNumbers()
 end
 
--- RegEvent("PLAYER_ENTERING_WORLD", function()
-
--- end)
+RegEvent("PLAYER_ENTERING_WORLD", function()
+    f.num.alliance:SetText("")
+    f.num.horde:SetText("")
+    f.num.stat = nil
+end)
 
 local FACTION_HORDE = 0
 local FACTION_ALLIANCE = 1
 
 RegEvent("UPDATE_BATTLEFIELD_SCORE", function()
 
-    local a = 0
-    local h = 0
-    
     local stat = {}
-    stat[0] = {}
-    stat[1] = {}
+    stat[FACTION_ALLIANCE] = {}
+    stat[FACTION_HORDE] = {}
 
     for i = 1, 80 do
         local playerName, _, _, _, _, faction, _, _, _, filename = GetBattlefieldScore(i)
-        if faction == FACTION_ALLIANCE then
-            a = a + 1
-        elseif faction == FACTION_HORDE then
-            h = h + 1
-        end
-
         if filename then
             if not stat[faction][filename] then
                 stat[faction][filename] = 0
@@ -135,12 +127,14 @@ RegEvent("UPDATE_BATTLEFIELD_SCORE", function()
 
             stat[faction][filename] = stat[faction][filename] + 1
         end
-        -- print(faction)
-        -- local playerName = GetBattlefieldScore(i);
     end
 
-    f.num.alliance:SetText(a)
-    f.num.horde:SetText(h)
+    local _, _, _, _, numHorde = GetBattlefieldTeamInfo(FACTION_HORDE);
+	local _, _, _, _, numAlliance = GetBattlefieldTeamInfo(FACTION_ALLIANCE)
+
+    f.num.alliance:SetText(numAlliance)
+    f.num.horde:SetText(numHorde)
+
     f.num.stat = stat
 end)
 
@@ -154,7 +148,6 @@ RegEvent("ADDON_LOADED", function()
     --         end)
     --     end
     -- end
-
     do 
         local av = CreateFrame("Frame", nil, f)
         av:SetAllPoints()
@@ -281,7 +274,7 @@ RegEvent("ADDON_LOADED", function()
             if #num.stat == 0 then
                 return
             end
-            
+
             tooltip:SetOwner(num, "ANCHOR_LEFT")
             tooltip:SetText(factionLoc[faction])
             tooltip:AddLine(" ")
