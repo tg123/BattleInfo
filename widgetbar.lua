@@ -1,6 +1,8 @@
 local _, ADDONSELF = ...
 local L = ADDONSELF.L
 local RegEvent = ADDONSELF.regevent
+local BattleZoneHelper = ADDONSELF.BattleZoneHelper
+
 
 local f = CreateFrame("Frame", nil, UIWidgetTopCenterContainerFrame)
 f:SetAllPoints()
@@ -35,12 +37,6 @@ local function UpdatepiritHealerText()
     f.spiritlabel:SetText(GetSpiritHealerText())
 end
 
-local MAPID_ALTERAC = 1459
-local MAPNAME_ALTERAC = C_Map.GetMapInfo(MAPID_ALTERAC).name
-
-local function IsInAlterac()
-    return GetRealZoneText() == MAPNAME_ALTERAC
-end
 
 local function CreateAlteracStatus()
 
@@ -159,7 +155,7 @@ local function UpdateAlteracNumbers()
     -- Horde Tower 9
     -- Horde Graveyard 12
     
-    if not IsInAlterac() then
+    if not BattleZoneHelper:IsInAlterac() then
         return
     end
 
@@ -167,11 +163,11 @@ local function UpdateAlteracNumbers()
 
     local data = {}
 
-    local areaPOIs = C_AreaPoiInfo.GetAreaPOIForMap(MAPID_ALTERAC)
-    local textures = C_Map.GetMapArtLayerTextures(MAPID_ALTERAC, 1) -- 1 for layer id, should be a const value
+    local areaPOIs = C_AreaPoiInfo.GetAreaPOIForMap(BattleZoneHelper.MAPID_ALTERAC)
+    local textures = C_Map.GetMapArtLayerTextures(BattleZoneHelper.MAPID_ALTERAC, 1) -- 1 for layer id, should be a const value
 
 	for _, areaPoiID in ipairs(areaPOIs) do
-		local poiInfo = C_AreaPoiInfo.GetAreaPOIInfo(MAPID_ALTERAC, areaPoiID)
+		local poiInfo = C_AreaPoiInfo.GetAreaPOIInfo(BattleZoneHelper.MAPID_ALTERAC, areaPoiID)
         if poiInfo then
             -- print(poiInfo.name)
             -- print(poiInfo.description)
@@ -204,7 +200,7 @@ end
 local function ShowAll()
     f:Show()
 
-    if IsInAlterac() then
+    if BattleZoneHelper:IsInAlterac() then
         f.av:Show()
     else
         f.av:Hide()

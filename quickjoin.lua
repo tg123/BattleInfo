@@ -2,11 +2,6 @@ local _, ADDONSELF = ...
 local L = ADDONSELF.L
 local RegEvent = ADDONSELF.regevent
 
--- ADDONSELF.Print = function(msg)
---     DEFAULT_CHAT_FRAME:AddMessage("|CFFFF0000<|r|CFFFFD100RaidLedger|r|CFFFF0000>|r"..(msg or "nil"))
--- end
-
-
 RegEvent("ADDON_LOADED", function()
     do
         do

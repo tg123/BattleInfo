@@ -12,6 +12,41 @@ ADDONSELF.InBattleground = function()
     return UnitInBattleground("player")
 end
 
+local BattleZoneHelper = {}
+ADDONSELF.BattleZoneHelper = BattleZoneHelper
+
+BattleZoneHelper.MAPID_ALTERAC = 1459
+BattleZoneHelper.MAPNAME_ALTERAC = C_Map.GetMapInfo(BattleZoneHelper.MAPID_ALTERAC).name
+
+BattleZoneHelper.MAPID_WARSONG = 1460
+BattleZoneHelper.MAPNAME_WARSONG = C_Map.GetMapInfo(BattleZoneHelper.MAPID_WARSONG).name
+
+BattleZoneHelper.MAPID_ARATHI = 1461
+BattleZoneHelper.MAPNAME_ARATHI = C_Map.GetMapInfo(BattleZoneHelper.MAPID_ARATHI).name
+
+-- ( 1 for Alterac Valley, 2 for Warsong Gulch, 3 for Arathi Basin,
+BattleZoneHelper.BGID_ALTERAC = 1
+BattleZoneHelper.BGID_WARSONG = 2
+BattleZoneHelper.BGID_ARATHI = 3
+
+BattleZoneHelper.BGID_MAPNAME_MAP = {
+    [BattleZoneHelper.MAPNAME_ALTERAC] = BattleZoneHelper.BGID_ALTERAC,
+    [BattleZoneHelper.MAPNAME_WARSONG] = BattleZoneHelper.BGID_WARSONG,
+    [BattleZoneHelper.MAPNAME_ARATHI] = BattleZoneHelper.BGID_ARATHI,
+}
+
+function BattleZoneHelper:IsInAlterac()
+    return GetRealZoneText() == self.MAPNAME_ALTERAC
+end
+
+function BattleZoneHelper:IsInWarsong()
+    return GetRealZoneText() == self.MAPNAME_WARSONG
+end
+
+function BattleZoneHelper:GetCurrentBGID()
+    return self.BGID_MAPNAME_MAP[GetRealZoneText() or ""]
+end
+
 RegEvent("ADDON_LOADED", function()
     ADDONSELF.Print(L["BatteInfo Loaded"])
 end)
