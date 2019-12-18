@@ -36,10 +36,10 @@ local function UpdatepiritHealerText()
 end
 
 local MAPID_ALTERAC = 1459
+local MAPNAME_ALTERAC = C_Map.GetMapInfo(MAPID_ALTERAC).name
 
 local function IsInAlterac()
-    local info = C_Map.GetMapInfo(MAPID_ALTERAC)
-    return GetRealZoneText() == info.name
+    return GetRealZoneText() == MAPNAME_ALTERAC
 end
 
 local function CreateAlteracStatus()
