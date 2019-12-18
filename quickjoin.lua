@@ -70,7 +70,8 @@ RegEvent("ADDON_LOADED", function()
         t:SetScript("OnEscapePressed", function() HideUIPanel(BattlefieldFrame) end)
 
         local l = t:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-        l:SetPoint("TOPLEFT", t, -100, -5)
+        l:SetPoint("TOPRIGHT", t, "TOPLEFT", -10, -5)
+        l:SetJustifyH("RIGHT")
         l:SetText(L["Quick select"])
 
     end
