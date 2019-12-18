@@ -223,13 +223,18 @@ local function OnUpdate()
     f.elapselabel:SetText(SecondsToTime(GetBattlefieldInstanceRunTime()/1000))
 
     RequestBattlefieldScoreData()
-    UpdateAlteracNumbers()
 end
+
+RegEvent("AREA_POIS_UPDATED", function()
+    UpdateAlteracNumbers()
+end)
 
 RegEvent("PLAYER_ENTERING_WORLD", function()
     f.num.alliance:SetText("")
     f.num.horde:SetText("")
     f.num.stat = nil
+    
+    UpdateAlteracNumbers()
 end)
 
 local FACTION_HORDE = 0
