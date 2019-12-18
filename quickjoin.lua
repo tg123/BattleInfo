@@ -9,6 +9,11 @@ local RegEvent = ADDONSELF.regevent
 
 RegEvent("ADDON_LOADED", function()
     do
+        do
+            BattlefieldFrame:HookScript("OnShow", function()
+                BattlefieldFrameNameHeader:SetText(BATTLEFIELD_NAME .. " " .. TOTAL .. " " ..  GetNumBattlefields())
+            end)
+        end
 
         local toidx = function(txt)
             local n = tonumber(txt)
