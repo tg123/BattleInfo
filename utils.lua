@@ -43,8 +43,15 @@ function BattleZoneHelper:IsInWarsong()
     return GetRealZoneText() == self.MAPNAME_WARSONG
 end
 
-function BattleZoneHelper:GetCurrentBGID()
-    return self.BGID_MAPNAME_MAP[GetRealZoneText() or ""]
+function BattleZoneHelper:GetCurrentBG()
+
+    for i=1, MAX_BATTLEFIELD_QUEUES do
+        local status, mapName, instanceID = GetBattlefieldStatus(i);
+
+        if status == "active" then
+            return self.BGID_MAPNAME_MAP[mapName], instanceID
+        end
+    end
 end
 
 RegEvent("ADDON_LOADED", function()
