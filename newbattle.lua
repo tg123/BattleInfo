@@ -15,6 +15,12 @@ local function GetElapseFromCache(nameOrId, instanceID)
     local data = elapseCache[key]
 
     if data then
+
+        if GetServerTime() - data.time > 90 then -- data ttl 90sec (bg will close in 2 min)
+            elapseCache[key] = nil
+            return nil
+        end
+
         return GetServerTime() - data.time + data.elapse
     end
 
@@ -168,7 +174,6 @@ RegEvent("ADDON_LOADED", function()
                     local text = L["List Position"] .. " " .. instanceIDs[toJ]
 
                     local elp = GetElapseFromCache(mapName, toJ)
-                    elp = 
                     if elp then
                         text = SecondsToTime(elp)
                     end
