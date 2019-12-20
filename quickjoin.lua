@@ -47,8 +47,8 @@ RegEvent("ADDON_LOADED", function()
             local idx = toidx(n)
             if idx then
                 FauxScrollFrame_SetOffset(BattlefieldListScrollFrame, idx)
-                local z,c=BattlefieldListScrollFrame:GetVerticalScrollRange(),GetNumBattlefields()
-                BattlefieldListScrollFrame:SetVerticalScroll(z*idx/(c-9))
+                local z,c = BattlefieldListScrollFrame:GetVerticalScrollRange(), GetNumBattlefields()
+                BattlefieldListScrollFrame:SetVerticalScroll(z * idx / (c-9))
                 SetSelectedBattlefield(idx)
                 BattlefieldFrame_Update()
             else
