@@ -178,6 +178,7 @@ RegEvent("ADDON_LOADED", function()
 
     -- hooksecurefunc(StaticPopupDialogs["CONFIRM_BATTLEFIELD_ENTRY"], "OnShow", function(self)
     StaticPopupDialogs["CONFIRM_BATTLEFIELD_ENTRY"].OnShow = function(self)
+        FlashClientIcon()
         local tx = self.text:GetText()
         
         if not self.button2.batteinfohooked then
