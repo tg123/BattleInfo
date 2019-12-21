@@ -162,6 +162,8 @@ RegEvent("ADDON_LOADED", function()
     StaticPopupDialogs["CONFIRM_BATTLEFIELD_ENTRY"].OnShow = function(self)
         local tx = self.text:GetText()
 
+        SendChatMessage(tx,"WHISPER",nil,UnitName("player"))
+			
         if string.find(tx, L["List Position"], 1, 1) or string.find(tx, L["New"], 1 , 1) then			
             return
         end    
