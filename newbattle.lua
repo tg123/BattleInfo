@@ -158,9 +158,39 @@ RegEvent("ADDON_LOADED", function()
     hooksecurefunc("JoinBattlefield", UpdateBattleListCache)
     hooksecurefunc("BattlefieldFrame_Update", UpdateBattleListCache)
 
+    -- HAHAHAHAHA 
+    local leavequeuebtn
+    do
+        local t = CreateFrame("Button", nil, f, "UIPanelButtonTemplate, SecureActionButtonTemplate")
+        t:SetFrameStrata("TOOLTIP")
+        t:SetText(L["CTRL+Hide=Leave"])
+        t:SetAttribute("type", "macro") -- left click causes macro
+        t:SetAttribute("macrotext", "/click MiniMapBattlefieldFrame RightButton" .. "\r\n" .. "/click DropDownList1Button3") -- text for macro on left click
+        t:Hide()
+        leavequeuebtn = t
+    end
+
+    StaticPopupDialogs["CONFIRM_BATTLEFIELD_ENTRY"].OnHide = function()
+        leavequeuebtn:Hide()
+    end
+
+    StaticPopupDialogs["CONFIRM_BATTLEFIELD_ENTRY"].button2 = L["CTRL+Hide=Leave"]
+
     -- hooksecurefunc(StaticPopupDialogs["CONFIRM_BATTLEFIELD_ENTRY"], "OnShow", function(self)
     StaticPopupDialogs["CONFIRM_BATTLEFIELD_ENTRY"].OnShow = function(self)
         local tx = self.text:GetText()
+        
+        if not self.button2.batteinfohooked then
+            leavequeuebtn:SetAllPoints(self.button2)
+            self.button2:SetScript("OnUpdate", function(self)
+                if IsControlKeyDown() then
+                    leavequeuebtn:Show()
+                else
+                    leavequeuebtn:Hide()
+                end
+            end)
+            self.button2.batteinfohooked = true
+        end
 
         if string.find(tx, L["List Position"], 1, 1) or string.find(tx, L["New"], 1 , 1) then			
             return
