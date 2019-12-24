@@ -165,8 +165,30 @@ RegEvent("ADDON_LOADED", function()
         t:SetFrameStrata("TOOLTIP")
         t:SetText(L["CTRL+Hide=Leave"])
         t:SetAttribute("type", "macro") -- left click causes macro
-        t:SetAttribute("macrotext", "/click MiniMapBattlefieldFrame RightButton" .. "\r\n" .. "/click DropDownList1Button3") -- text for macro on left click
+        -- t:SetAttribute("macrotext", "/click MiniMapBattlefieldFrame RightButton" .. "\r\n" .. "/click DropDownList1Button3") -- text for macro on left click
         t:Hide()
+
+        t.updateMacro = function(showid)
+            local queued = 0
+
+            for i = 1, MAX_BATTLEFIELD_QUEUES do
+                local status, mapName, instanceID = GetBattlefieldStatus(i)
+                local current = i == showid 
+
+                if current then
+
+                    local loc = i * 4 - 1 - queued
+                    leavequeuebtn:SetAttribute("macrotext", "/click MiniMapBattlefieldFrame RightButton" .. "\r\n" .. "/click DropDownList1Button" .. (loc)) -- text for macro on left click
+                    break
+                end
+
+                if status == "queued" then
+                    queued = queued + 1
+                end
+            end
+        end
+
+
         leavequeuebtn = t
     end
 
@@ -177,13 +199,15 @@ RegEvent("ADDON_LOADED", function()
     StaticPopupDialogs["CONFIRM_BATTLEFIELD_ENTRY"].button2 = L["CTRL+Hide=Leave"]
 
     -- hooksecurefunc(StaticPopupDialogs["CONFIRM_BATTLEFIELD_ENTRY"], "OnShow", function(self)
-    StaticPopupDialogs["CONFIRM_BATTLEFIELD_ENTRY"].OnShow = function(self)
+    StaticPopupDialogs["CONFIRM_BATTLEFIELD_ENTRY"].OnShow = function(self, data)
         FlashClientIcon()
         local tx = self.text:GetText()
+        leavequeuebtn.updateMacro(data)
         
         if not self.button2.batteinfohooked then
             leavequeuebtn:SetAllPoints(self.button2)
             self.button2:SetScript("OnUpdate", function(self)
+
                 if IsControlKeyDown() then
                     leavequeuebtn:Show()
                 else
