@@ -226,6 +226,8 @@ RegEvent("AREA_POIS_UPDATED", function()
 end)
 
 RegEvent("PLAYER_ENTERING_WORLD", function()
+    spirittime = nil
+    
     f.num.alliance:SetText("")
     f.num.horde:SetText("")
     f.num.stat = nil
