@@ -241,22 +241,49 @@ local FACTION_ALLIANCE = 1
 RegEvent("UPDATE_BATTLEFIELD_SCORE", function()
 
     local stat = {}
-    stat[FACTION_ALLIANCE] = {}
-    stat[FACTION_HORDE] = {}
+    stat[FACTION_ALLIANCE] = {
+        class = {},
+        realm = {},
+        maxrealm = "",
+        maxrealmc = 0,
+    }
+    stat[FACTION_HORDE] = {
+        class = {},
+        realm = {},
+        maxrealm = "",
+        maxrealmc = 0,
+    }
 
     for i = 1, 80 do
         local playerName, _, _, _, _, faction, _, _, _, filename = GetBattlefieldScore(i)
         if filename then
-            if not stat[faction][filename] then
-                stat[faction][filename] = 0
+            if not stat[faction].class[filename] then
+                stat[faction].class[filename] = 0
             end
 
-            stat[faction][filename] = stat[faction][filename] + 1
+            stat[faction].class[filename] = stat[faction].class[filename] + 1
+
+            local _, realm = strsplit("-", playerName)
+            realm = realm or GetRealmName()
+
+            if not stat[faction].realm[realm] then
+                stat[faction].realm[realm] = 0
+            end
+            
+            stat[faction].realm[realm] = stat[faction].realm[realm] + 1
+
+            if stat[faction].maxrealmc < stat[faction].realm[realm] then
+                stat[faction].maxrealmc = stat[faction].realm[realm]
+                stat[faction].maxrealm  = realm
+            end
         end
     end
 
     local _, _, _, _, numHorde = GetBattlefieldTeamInfo(FACTION_HORDE)
-	local _, _, _, _, numAlliance = GetBattlefieldTeamInfo(FACTION_ALLIANCE)
+    local _, _, _, _, numAlliance = GetBattlefieldTeamInfo(FACTION_ALLIANCE)
+    
+    stat[FACTION_HORDE].count = numHorde
+    stat[FACTION_ALLIANCE].count = numAlliance
 
     f.num.alliance:SetText(numAlliance)
     f.num.horde:SetText(numHorde)
@@ -323,11 +350,18 @@ RegEvent("ADDON_LOADED", function()
                 return
             end
 
+            local stat = num.stat[faction]
+
             tooltip:SetOwner(num, "ANCHOR_LEFT")
             tooltip:SetText(factionLoc[faction])
             tooltip:AddLine(" ")
 
-            for c, n in pairs(num.stat[faction]) do
+            if stat.maxrealmc / stat.count  > 0.15 and stat.maxrealmc > 1 then
+                tooltip:AddDoubleLine(stat.maxrealm, string.format("%d/%d", stat.maxrealmc, stat.count))
+                tooltip:AddLine(" ")
+            end
+
+            for c, n in pairs(stat.class) do
                 local color = GetClassColorObj(c)
                 tooltip:AddDoubleLine(color:WrapTextInColorCode(classLoc[c]), n)
             end
