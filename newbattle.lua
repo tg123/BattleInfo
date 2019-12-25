@@ -192,29 +192,53 @@ RegEvent("ADDON_LOADED", function()
         leavequeuebtn = t
     end
 
+    local joinqueuebtn
+    do
+        local j = CreateFrame("Button", nil, f, "UIPanelButtonTemplate, SecureActionButtonTemplate")
+        j:SetFrameStrata("TOOLTIP")
+        j:SetText(ENTER_BATTLE)
+        j:SetAttribute("type", "macro") -- left click causes macro
+        j:SetAttribute("macrotext", "/click MiniMapBattlefieldFrame RightButton" .. "\r\n" .. "/run JOIN_B=nil if UnitAffectingCombat('player')then SendSystemMessage(ERR_AFFECTING_COMBAT)else local x,f,b=_,_,DropDownList1;for _,x in ipairs({b:GetChildren()})do f=x.value if f==ENTER_BATTLE then JOIN_B=x break end end end local bt=CreateFrame('Button', 'JOIN_BTN', UIParent, 'SecureActionButtonTemplate')bt:SetAttribute('type', 'click')bt:SetAttribute('clickbutton',JOIN_B)".. "\r\n" .. "/stopmacro [combat]".. "\r\n" .. "/click JOIN_BTN") -- text for macro on left click
+        j:Hide()
+        joinqueuebtn = j
+    end    
+    
     StaticPopupDialogs["CONFIRM_BATTLEFIELD_ENTRY"].OnHide = function()
         leavequeuebtn:Hide()
+        joinqueuebtn:Hide()
     end
-
+    
     StaticPopupDialogs["CONFIRM_BATTLEFIELD_ENTRY"].button2 = L["CTRL+Hide=Leave"]
 
     -- hooksecurefunc(StaticPopupDialogs["CONFIRM_BATTLEFIELD_ENTRY"], "OnShow", function(self)
     StaticPopupDialogs["CONFIRM_BATTLEFIELD_ENTRY"].OnShow = function(self, data)
         FlashClientIcon()
         local tx = self.text:GetText()
+        local isCombat = UnitAffectingCombat('player')
         leavequeuebtn.updateMacro(data)
         
         if not self.button2.batteinfohooked then
             leavequeuebtn:SetAllPoints(self.button2)
             self.button2:SetScript("OnUpdate", function(self)
 
-                if IsControlKeyDown() then
+                if IsControlKeyDown() and not isCombat then
                     leavequeuebtn:Show()
                 else
                     leavequeuebtn:Hide()
                 end
             end)
             self.button2.batteinfohooked = true
+        end
+
+        if not self.button1.batteinfohooked then
+            joinqueuebtn:SetAllPoints(self.button1)
+            self.button1.batteinfohooked = true
+        end
+
+        if isCombat then
+            joinqueuebtn:Hide()
+        else
+            joinqueuebtn:Show()
         end
 
         if string.find(tx, L["List Position"], 1, 1) or string.find(tx, L["New"], 1 , 1) then			
