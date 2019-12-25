@@ -178,7 +178,7 @@ RegEvent("ADDON_LOADED", function()
                 if current then
 
                     local loc = i * 4 - 1 - queued
-                    leavequeuebtn:SetAttribute("macrotext", "/click MiniMapBattlefieldFrame RightButton" .. "\r\n" .. "/click DropDownList1Button" .. (loc)) -- text for macro on left click
+                    leavequeuebtn:SetAttribute("macrotext", "/click MiniMapBattlefieldFrame RightButton" .. "\r\n" .. "/stopmacro [combat]" .."\r\n" .. "/click DropDownList1Button" .. (loc)) -- text for macro on left click
                     break
                 end
 
