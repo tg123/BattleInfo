@@ -142,7 +142,7 @@ local function UpdateBattleListCache()
     local n = GetNumBattlefields()
     for i = 1, n  do
         local instanceID = GetBattlefieldInstanceInfo(i)
-        battleList[mapName][tonumber(instanceID)] = i .. "/" .. n
+        battleList[mapName][tonumber(instanceID)] = { i = i , n = n }
     end
 
     UpdateInstanceButtonText()
@@ -226,14 +226,22 @@ RegEvent("ADDON_LOADED", function()
             toJ = tonumber(toJ)
             if toJ then
                 if instanceIDs[toJ] then
-                    local text = L["List Position"] .. " " .. instanceIDs[toJ]
+
+                    -- first half 0 - rate -> red (0)
+                    -- second half rate - 100% -> red(0) -> yellow (1)
+                    local rate = 0.45
+                    local pos = instanceIDs[toJ].i
+                    local total = instanceIDs[toJ].n
+
+                    local pos0 = math.max(pos - total * rate - 1, 0)
+
+                    local color = CreateColor(1.0, math.min(pos0 / (total * (1 - rate)), 1) , 0)
+                    local text = color:WrapTextInColorCode(L["List Position"] .. " " .. string.format("%d/%d", pos, total))
 
                     local elp = GetElapseFromCache(mapName, toJ)
                     if elp then
-                        text = SecondsToTime(elp)
+                        text = RED_FONT_COLOR:WrapTextInColorCode(SecondsToTime(elp))
                     end
-
-                    text = RED_FONT_COLOR:WrapTextInColorCode(text)
 
                     self.text:SetText(string.gsub(tx ,toJ , YELLOW_FONT_COLOR:WrapTextInColorCode(toJ) .. "(" .. text .. ")"))
                 else
