@@ -372,12 +372,37 @@ RegEvent("ADDON_LOADED", function()
         local hideTooltip = function()
             tooltip:Hide()
             tooltip:SetOwner(UIParent, "ANCHOR_NONE")
-        end        
+        end  
+
+        local yellComposition = function(faction)
+            if not num.stat then
+                return
+            end
+            if #num.stat == 0 then
+                return
+            end
+
+            local stat = num.stat[faction]
+            local text = factionLoc[faction]
+
+            for c, n in pairs(stat.class) do
+                text = text .. " " .. classLoc[c] .. ":" .. n
+            end
+
+            if stat.maxrealmc / stat.count  > 0.15 and stat.maxrealmc > 1 then
+                text = text .. " " .. stat.maxrealm .. ":" .. string.format("%d/%d", stat.maxrealmc, stat.count)
+            end
+
+            SendChatMessage(text, "INSTANCE_CHAT")
+        end
 
         do
             local t =  CreateFrame("Frame", nil, num)
             t:SetPoint("TOPLEFT", num, 0, -7)
             t:SetSize(35, 10)
+            t:SetScript("OnMouseUp", function()
+                yellComposition(FACTION_ALLIANCE)
+            end)
             t:SetScript("OnEnter", function()
                 showTooltip(FACTION_ALLIANCE)
             end)
@@ -396,6 +421,9 @@ RegEvent("ADDON_LOADED", function()
             local t =  CreateFrame("Frame", nil, num)
             t:SetPoint("TOPLEFT", num, 0, -30)
             t:SetSize(35, 21)
+            t:SetScript("OnMouseUp", function()
+                yellComposition(FACTION_HORDE)
+            end)
             t:SetScript("OnEnter", function()
                 showTooltip(FACTION_HORDE)
             end)
