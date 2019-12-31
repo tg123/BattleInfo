@@ -12,6 +12,14 @@ do
     av:SetAllPoints()
     f.av = av
     av.nums = {}
+
+    RegisterKeyChangedCallback("show_alterac", function(v)
+        if v then
+            av:Show()
+        else
+            av:Hide()
+        end
+    end)
 end
 
 local spirittime

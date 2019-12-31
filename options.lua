@@ -110,10 +110,14 @@ RegEvent("PLAYER_LOGIN", function()
     end
 
     do
-        local b = createCheckbox(L["Replace"] .. " " .. ENTER_BATTLE, "replace_enter_battle", false)
+        local b = createCheckbox(L["Show Alterac score bar created by BattleInfo"], "show_alterac", true)
         b:SetPoint("TOPLEFT", f, 15, nextpos())
     end
 
+    do
+        local b = createCheckbox(L["Replace"] .. " " .. ENTER_BATTLE, "replace_enter_battle", false)
+        b:SetPoint("TOPLEFT", f, 15, nextpos())
+    end
 
     do
         local b = CreateFrame("Button", nil, f, "GameMenuButtonTemplate")
