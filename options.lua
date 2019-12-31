@@ -88,19 +88,43 @@ RegEvent("PLAYER_LOGIN", function()
     f.refresh = function()
     end
 
-    do
-        local b = createCheckbox(L["Replace"] .. " " .. ENTER_BATTLE, "replace_enter_battle", false)
-        b:SetPoint("TOPLEFT", f, 15, -80)
+    local base = -50
+    local nextpos = function()
+        base = base - 30
+        return base
     end
 
     do
         local b = createCheckbox(L["Show Spirit heal AE Timer"], "show_spirit_heal", true)
-        b:SetPoint("TOPLEFT", f, 15, -110)
+        b:SetPoint("TOPLEFT", f, 15, nextpos())
     end
 
     do
         local b = createCheckbox(L["Show Battleground time elapsed"], "show_time_elapsed", true)
-        b:SetPoint("TOPLEFT", f, 15, -140)
+        b:SetPoint("TOPLEFT", f, 15, nextpos())
+    end
+
+    do
+        local b = createCheckbox(L["Show team number next to faction crest"], "show_number", true)
+        b:SetPoint("TOPLEFT", f, 15, nextpos())
+    end
+
+    do
+        local b = createCheckbox(L["Replace"] .. " " .. ENTER_BATTLE, "replace_enter_battle", false)
+        b:SetPoint("TOPLEFT", f, 15, nextpos())
+    end
+
+
+    do
+        local b = CreateFrame("Button", nil, f, "GameMenuButtonTemplate")
+        b:SetWidth(200)
+        b:SetHeight(25)
+        b:SetPoint("BOTTOMLEFT", 15, 10)
+        b:SetText(L["Reset score bar position"])
+        b:SetScript("OnClick", function()
+            UIWidgetTopCenterContainerFrame:SetUserPlaced(false)
+            C_UI.Reload()
+        end)
     end
 
 end)

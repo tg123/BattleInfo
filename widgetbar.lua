@@ -443,6 +443,14 @@ RegEvent("ADDON_LOADED", function()
             f.num.horde = l
             -- l:SetText("20")
         end
+
+        RegisterKeyChangedCallback("show_number", function(v)
+            if v then
+                f.num:Show()
+            else
+                f.num:Hide()
+            end
+        end)
     end
 
     do
