@@ -11,14 +11,11 @@ do
     local av = CreateFrame("Frame", nil, f)
     av:SetAllPoints()
     f.av = av
+    av.forcehide = false
     av.nums = {}
 
     RegisterKeyChangedCallback("show_alterac", function(v)
-        if v then
-            av:Show()
-        else
-            av:Hide()
-        end
+        av.forcehide = not v
     end)
 end
 
@@ -208,7 +205,7 @@ end
 local function ShowAll()
     f:Show()
 
-    if BattleZoneHelper:IsInAlterac() then
+    if BattleZoneHelper:IsInAlterac() and not f.av.forcehide then
         f.av:Show()
     else
         f.av:Hide()

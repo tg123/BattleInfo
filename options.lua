@@ -110,7 +110,7 @@ RegEvent("PLAYER_LOGIN", function()
     end
 
     do
-        local b = createCheckbox(L["Show Alterac score bar created by BattleInfo"], "show_alterac", true)
+        local b = createCheckbox(L["Show Alterac Valley score bar created by BattleInfo"], "show_alterac", true)
         b:SetPoint("TOPLEFT", f, 15, nextpos())
     end
 
