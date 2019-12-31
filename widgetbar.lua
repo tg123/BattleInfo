@@ -2,7 +2,7 @@ local _, ADDONSELF = ...
 local L = ADDONSELF.L
 local RegEvent = ADDONSELF.regevent
 local BattleZoneHelper = ADDONSELF.BattleZoneHelper
-
+local RegisterKeyChangedCallback = ADDONSELF.RegisterKeyChangedCallback 
 
 local f = CreateFrame("Frame", nil, UIWidgetTopCenterContainerFrame)
 f:SetAllPoints()
@@ -306,7 +306,13 @@ RegEvent("ADDON_LOADED", function()
         local l = f:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
         l:SetPoint("TOPLEFT", f, -15, 12)
         f.spiritlabel = l
-
+        RegisterKeyChangedCallback("show_spirit_heal", function(v)
+            if v then
+                l:Show()
+            else
+                l:Hide()
+            end
+        end)
     end
 
 
@@ -443,6 +449,13 @@ RegEvent("ADDON_LOADED", function()
         local l = f:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
         l:SetPoint("TOPLEFT", f, -15, -50)
         f.elapselabel = l
+        RegisterKeyChangedCallback("show_time_elapsed", function(v)
+            if v then
+                l:Show()
+            else
+                l:Hide()
+            end
+        end)
     end
 
     UIWidgetTopCenterContainerFrame:HookScript("OnUpdate", OnUpdate)

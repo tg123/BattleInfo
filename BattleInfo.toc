@@ -23,6 +23,7 @@
 ## Notes-zhTW: @localization(locale="zhTW", key="TOC_NOTES")@
 ## Author: Boshi Lian(farmer1992@gmail.com)
 ## Version: @project-version
+## SavedVariablesPerCharacter: BatteInfoSettings
 
 locales.lua
 event.lua
