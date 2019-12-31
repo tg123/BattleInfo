@@ -115,7 +115,17 @@ RegEvent("PLAYER_LOGIN", function()
     end
 
     do
-        local b = createCheckbox(L["Replace"] .. " " .. ENTER_BATTLE, "replace_enter_battle", false)
+        local b = createCheckbox(L["Replace Enter Battle Button with count down"], "replace_enter_battle", true)
+        b:SetPoint("TOPLEFT", f, 15, nextpos())
+    end
+
+    do
+        local b = createCheckbox(L["Replace Hide Button with CTRL+Hide=Leave"], "replace_hide_battle", true)
+        b:SetPoint("TOPLEFT", f, 15, nextpos())
+    end
+
+    do
+        local b = createCheckbox(L["Flash Icon taskbar when battle ground is ready to join"], "flash_icon", true)
         b:SetPoint("TOPLEFT", f, 15, nextpos())
     end
 
