@@ -55,5 +55,5 @@ function BattleZoneHelper:GetCurrentBG()
 end
 
 RegEvent("ADDON_LOADED", function()
-    ADDONSELF.Print(L["BatteInfo Loaded"])
+    ADDONSELF.Print(L["BattleInfo Loaded"])
 end)
