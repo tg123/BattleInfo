@@ -187,6 +187,17 @@ RegEvent("ADDON_LOADED", function()
             end
         end        
 
+        t:SetScript("OnUpdate", function()
+            for i = 1, MAX_BATTLEFIELD_QUEUES do
+                local time = GetBattlefieldPortExpiration(i)
+                if time > 0 then
+                    t:SetText(ENTER_BATTLE .. "(" .. GREEN_FONT_COLOR:WrapTextInColorCode(time) .. ")")
+                end
+                return
+            end
+            t:SetText(ENTER_BATTLE .. "(" .. GREEN_FONT_COLOR:WrapTextInColorCode("?") .. ")")
+        end)
+
         joinqueuebtn = t
     end
 
@@ -225,7 +236,9 @@ RegEvent("ADDON_LOADED", function()
 
     StaticPopupDialogs["CONFIRM_BATTLEFIELD_ENTRY"].OnHide = function()
         joinqueuebtn:Hide()
+        joinqueuebtn:ClearAllPoints()
         leavequeuebtn:Hide()
+        leavequeuebtn:ClearAllPoints()
     end
 
 
@@ -263,27 +276,13 @@ RegEvent("ADDON_LOADED", function()
         if replaceEnter then
             joinqueuebtn.updateMacro(data)
             joinqueuebtn:Show()
-            if not self.button1.batteinfohooked then
-                joinqueuebtn:SetAllPoints(self.button1)
-                self.button1:SetScript("OnUpdate", function()
-                    for i = 1, MAX_BATTLEFIELD_QUEUES do
-                        local t = GetBattlefieldPortExpiration(i)
-                        if t > 0 then
-                            joinqueuebtn:SetText(ENTER_BATTLE .. "(" .. GREEN_FONT_COLOR:WrapTextInColorCode(t) .. ")")
-                        end
-                        return
-                    end
-                    joinqueuebtn:SetText(ENTER_BATTLE .. "(" .. GREEN_FONT_COLOR:WrapTextInColorCode("?") .. ")")
-
-                end)
-                self.button1.batteinfohooked = true
-            end
+            joinqueuebtn:SetAllPoints(self.button1)
         end
 
         if replaceHide then
             leavequeuebtn.updateMacro(data)
+            leavequeuebtn:SetAllPoints(self.button2)
             if not self.button2.batteinfohooked then
-                leavequeuebtn:SetAllPoints(self.button2)
                 self.button2:SetScript("OnUpdate", function()
 
                     if IsControlKeyDown() then
