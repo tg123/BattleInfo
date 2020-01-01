@@ -32,4 +32,5 @@ utils.lua
 quickjoin.lua
 newbattle.lua
 widgetbar.lua
+auto.lua
 cli.lua
