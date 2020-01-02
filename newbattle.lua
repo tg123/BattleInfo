@@ -160,20 +160,22 @@ RegEvent("ADDON_LOADED", function()
     hooksecurefunc("BattlefieldFrame_Update", UpdateBattleListCache)
 
     local joinqueuebtn
+    local joinqueue_text
     do
         local join_btn=CreateFrame('Button', 'BI_JOIN_QUEUE_BTN', f, 'SecureActionButtonTemplate')
         join_btn:SetAttribute('type', 'click')
-        local joinqueue_text=[[
-        /run local join_b,btn_name=nil,nil; 
-        for _,x in ipairs({DropDownList1:GetChildren()})do
-            btn_name=x.value
-            if btn_name==ENTER_BATTLE then 
-                join_b=x 
-            elseif InCombatLockdown()and btn_name==LEAVE_QUEUE then
-                x:Disable() 
+        joinqueue_text=[[
+            /run local join_b,btn_name=nil,nil; 
+            for _,x in ipairs({DropDownList1:GetChildren()})do
+                btn_name=x.value
+                if btn_name==ENTER_BATTLE then 
+                    join_b=x 
+                elseif InCombatLockdown()and btn_name==LEAVE_QUEUE then
+                    x:Disable() 
+                end 
             end 
-        end 
-        BI_JOIN_QUEUE_BTN:SetAttribute('clickbutton',join_b)]]
+            BI_JOIN_QUEUE_BTN:SetAttribute('clickbutton',join_b)
+        ]]
         
         joinqueue_text = joinqueue_text:gsub("%s+/run","/run")
         joinqueue_text = joinqueue_text:gsub("%s+"," ")
@@ -200,23 +202,25 @@ RegEvent("ADDON_LOADED", function()
 
     -- HAHAHAHAHA 
     local leavequeuebtn
+    local leavequeue_text
     do
         local leave_btn=CreateFrame('Button', 'BI_LEAVE_QUEUE_BTN', f, 'SecureActionButtonTemplate')
         leave_btn:SetAttribute('type', 'click')
-        local leavequeue_text=[[
-        /run local leave_b,this_queue,btn_name=nil,nil,nil;
-        for _,x in ipairs({DropDownList1:GetChildren()})do
-            btn_name=x.value
-            if btn_name==ENTER_BATTLE then 
-                this_queue=true 
+        leavequeue_text=[[
+            /run local leave_b,this_queue,btn_name=nil,nil,nil;
+            for _,x in ipairs({DropDownList1:GetChildren()})do
+                btn_name=x.value
+                if btn_name==ENTER_BATTLE then 
+                    this_queue=true 
+                end 
+                if this_queue and btn_name==LEAVE_QUEUE then 
+                    leave_b=x 
+                elseif InCombatLockdown()and (btn_name==LEAVE_QUEUE or btn_name==ENTER_BATTLE) then 
+                    x:Disable() 
+                end 
             end 
-            if this_queue and btn_name==LEAVE_QUEUE then 
-                leave_b=x 
-            elseif InCombatLockdown()and (btn_name==LEAVE_QUEUE or btn_name==ENTER_BATTLE) then 
-                x:Disable() 
-            end 
-        end 
-        BI_LEAVE_QUEUE_BTN:SetAttribute('clickbutton',leave_b)"]]
+            BI_LEAVE_QUEUE_BTN:SetAttribute('clickbutton',leave_b)"
+        ]]
         
         leavequeue_text = leavequeue_text:gsub("%s+/run","/run")
         leavequeue_text = leavequeue_text:gsub("%s+"," ")
