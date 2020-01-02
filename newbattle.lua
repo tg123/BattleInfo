@@ -164,11 +164,12 @@ RegEvent("ADDON_LOADED", function()
         local join_btn=CreateFrame('Button', 'BI_JOIN_QUEUE_BTN', f, 'SecureActionButtonTemplate')
         join_btn:SetAttribute('type', 'click')
         local joinqueue_text=[[
-        /run local join_b=nil 
+        /run local join_b,btn_name=nil,nil; 
         for _,x in ipairs({DropDownList1:GetChildren()})do
-            if x.value==ENTER_BATTLE then 
+            btn_name=x.value
+            if btn_name==ENTER_BATTLE then 
                 join_b=x 
-            elseif InCombatLockdown()and x.value==LEAVE_QUEUE then
+            elseif InCombatLockdown()and btn_name==LEAVE_QUEUE then
                 x:Disable() 
             end 
         end 
@@ -203,14 +204,15 @@ RegEvent("ADDON_LOADED", function()
         local leave_btn=CreateFrame('Button', 'BI_LEAVE_QUEUE_BTN', f, 'SecureActionButtonTemplate')
         leave_btn:SetAttribute('type', 'click')
         local leavequeue_text=[[
-        /run local leave_b,this_queue=nil,nil;
-        for _,x in ipairs({DropDownList1:GetChildren()})do 
-            if x.value==ENTER_BATTLE then 
+        /run local leave_b,this_queue,btn_name=nil,nil,nil;
+        for _,x in ipairs({DropDownList1:GetChildren()})do
+            btn_name=x.value
+            if btn_name==ENTER_BATTLE then 
                 this_queue=true 
             end 
-            if this_queue and x.value==LEAVE_QUEUE then 
+            if this_queue and btn_name==LEAVE_QUEUE then 
                 leave_b=x 
-            elseif InCombatLockdown()and (x.value==LEAVE_QUEUE or x.value==ENTER_BATTLE) then 
+            elseif InCombatLockdown()and (btn_name==LEAVE_QUEUE or btn_name==ENTER_BATTLE) then 
                 x:Disable() 
             end 
         end 
