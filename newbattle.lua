@@ -161,32 +161,15 @@ RegEvent("ADDON_LOADED", function()
 
     local joinqueuebtn
     do
+        local join_btn=CreateFrame('Button', 'BI_JOIN_QUEUE_BTN', f, 'SecureActionButtonTemplate')
+        join_btn:SetAttribute('type', 'click')
         local t = CreateFrame("Button", nil, f, "UIPanelButtonTemplate, SecureActionButtonTemplate")
         t:SetFrameStrata("TOOLTIP")
         t:SetText(ENTER_BATTLE)
         t:SetAttribute("type", "macro") -- left click causes macro
+        t:SetAttribute("macrotext", "/click MiniMapBattlefieldFrame RightButton" .. "\r\n" .. "/run local join_b=nil for _,x in ipairs({DropDownList1:GetChildren()})do if x.value==ENTER_BATTLE then join_b=x elseif InCombatLockdown()and x.value==LEAVE_QUEUE then x:Disable() end end BI_JOIN_QUEUE_BTN:SetAttribute('clickbutton',join_b)".. "\r\n" .. "/stopmacro [combat]".. "\r\n" .. "/click BI_JOIN_QUEUE_BTN") -- text for macro on left click
         t:Hide()
-
-        t.updateMacro = function(showid)
-            local queued = 0
-
-            for i = 1, MAX_BATTLEFIELD_QUEUES do
-                local status, mapName, instanceID = GetBattlefieldStatus(i)
-                local current = i == showid 
-
-                if current then
-
-                    local loc = i * 4 - 2 - queued
-                    t:SetAttribute("macrotext", "/click MiniMapBattlefieldFrame RightButton" .. "\r\n" .. "/click DropDownList1Button" .. (loc)) -- text for macro on left click
-                    break
-                end
-
-                if status == "queued" then
-                    queued = queued + 1
-                end
-            end
-        end        
-
+       
         t:SetScript("OnUpdate", function()
             for i = 1, MAX_BATTLEFIELD_QUEUES do
                 local time = GetBattlefieldPortExpiration(i)
@@ -204,33 +187,14 @@ RegEvent("ADDON_LOADED", function()
     -- HAHAHAHAHA 
     local leavequeuebtn
     do
+        local leave_btn=CreateFrame('Button', 'BI_LEAVE_QUEUE_BTN', f, 'SecureActionButtonTemplate')
+        leave_btn:SetAttribute('type', 'click')
         local t = CreateFrame("Button", nil, f, "UIPanelButtonTemplate, SecureActionButtonTemplate")
         t:SetFrameStrata("TOOLTIP")
         t:SetText(L["CTRL+Hide=Leave"])
         t:SetAttribute("type", "macro") -- left click causes macro
+        t:SetAttribute("macrotext", "/click MiniMapBattlefieldFrame RightButton" .. "\r\n" .. "/run local leave_b,this_queue=nil,nil;for _,x in ipairs({DropDownList1:GetChildren()})do if x.value==ENTER_BATTLE then this_queue=true end if this_queue and x.value==LEAVE_QUEUE then leave_b=x elseif InCombatLockdown()and (x.value==LEAVE_QUEUE or x.value==ENTER_BATTLE) then x:Disable() end end BI_LEAVE_QUEUE_BTN:SetAttribute('clickbutton',leave_b)".. "\r\n" .. "/stopmacro [combat]".. "\r\n" .. "/click BI_LEAVE_QUEUE_BTN")
         t:Hide()
-
-        t.updateMacro = function(showid)
-            local queued = 0
-
-            for i = 1, MAX_BATTLEFIELD_QUEUES do
-                local status, mapName, instanceID = GetBattlefieldStatus(i)
-                local current = i == showid 
-
-                if current then
-
-                    local loc = i * 4 - 1 - queued
-                    t:SetAttribute("macrotext", "/click MiniMapBattlefieldFrame RightButton" .. "\r\n" .. "/click DropDownList1Button" .. (loc)) -- text for macro on left click
-                    break
-                end
-
-                if status == "queued" then
-                    queued = queued + 1
-                end
-            end
-        end
-
-
         leavequeuebtn = t
     end
 
@@ -274,13 +238,11 @@ RegEvent("ADDON_LOADED", function()
         end
 
         if replaceEnter then
-            joinqueuebtn.updateMacro(data)
             joinqueuebtn:Show()
             joinqueuebtn:SetAllPoints(self.button1)
         end
 
         if replaceHide then
-            leavequeuebtn.updateMacro(data)
             leavequeuebtn:SetAllPoints(self.button2)
             if not self.button2.batteinfohooked then
                 self.button2:SetScript("OnUpdate", function()
