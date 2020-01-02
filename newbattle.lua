@@ -163,11 +163,24 @@ RegEvent("ADDON_LOADED", function()
     do
         local join_btn=CreateFrame('Button', 'BI_JOIN_QUEUE_BTN', f, 'SecureActionButtonTemplate')
         join_btn:SetAttribute('type', 'click')
+        local joinqueue_text=[[
+        /run local join_b=nil 
+        for _,x in ipairs({DropDownList1:GetChildren()})do
+            if x.value==ENTER_BATTLE then 
+                join_b=x 
+            elseif InCombatLockdown()and x.value==LEAVE_QUEUE then
+                x:Disable() 
+            end 
+        end 
+        BI_JOIN_QUEUE_BTN:SetAttribute('clickbutton',join_b)]]
+        
+        joinqueue_text = joinqueue_text:gsub("%s+/run","/run")
+        joinqueue_text = joinqueue_text:gsub("%s+"," ")
         local t = CreateFrame("Button", nil, f, "UIPanelButtonTemplate, SecureActionButtonTemplate")
         t:SetFrameStrata("TOOLTIP")
         t:SetText(ENTER_BATTLE)
         t:SetAttribute("type", "macro") -- left click causes macro
-        t:SetAttribute("macrotext", "/click MiniMapBattlefieldFrame RightButton" .. "\r\n" .. "/run local join_b=nil for _,x in ipairs({DropDownList1:GetChildren()})do if x.value==ENTER_BATTLE then join_b=x elseif InCombatLockdown()and x.value==LEAVE_QUEUE then x:Disable() end end BI_JOIN_QUEUE_BTN:SetAttribute('clickbutton',join_b)".. "\r\n" .. "/stopmacro [combat]".. "\r\n" .. "/click BI_JOIN_QUEUE_BTN") -- text for macro on left click
+        t:SetAttribute("macrotext", "/click MiniMapBattlefieldFrame RightButton" .. "\r\n" .. joinqueue_text .. "\r\n" .. "/stopmacro [combat]".. "\r\n" .. "/click BI_JOIN_QUEUE_BTN") -- text for macro on left click
         t:Hide()
        
         t:SetScript("OnUpdate", function()
@@ -189,11 +202,27 @@ RegEvent("ADDON_LOADED", function()
     do
         local leave_btn=CreateFrame('Button', 'BI_LEAVE_QUEUE_BTN', f, 'SecureActionButtonTemplate')
         leave_btn:SetAttribute('type', 'click')
+        local leavequeue_text=[[
+        /run local leave_b,this_queue=nil,nil;
+        for _,x in ipairs({DropDownList1:GetChildren()})do 
+            if x.value==ENTER_BATTLE then 
+                this_queue=true 
+            end 
+            if this_queue and x.value==LEAVE_QUEUE then 
+                leave_b=x 
+            elseif InCombatLockdown()and (x.value==LEAVE_QUEUE or x.value==ENTER_BATTLE) then 
+                x:Disable() 
+            end 
+        end 
+        BI_LEAVE_QUEUE_BTN:SetAttribute('clickbutton',leave_b)"]]
+        
+        leavequeue_text = leavequeue_text:gsub("%s+/run","/run")
+        leavequeue_text = leavequeue_text:gsub("%s+"," ")
         local t = CreateFrame("Button", nil, f, "UIPanelButtonTemplate, SecureActionButtonTemplate")
         t:SetFrameStrata("TOOLTIP")
         t:SetText(L["CTRL+Hide=Leave"])
         t:SetAttribute("type", "macro") -- left click causes macro
-        t:SetAttribute("macrotext", "/click MiniMapBattlefieldFrame RightButton" .. "\r\n" .. "/run local leave_b,this_queue=nil,nil;for _,x in ipairs({DropDownList1:GetChildren()})do if x.value==ENTER_BATTLE then this_queue=true end if this_queue and x.value==LEAVE_QUEUE then leave_b=x elseif InCombatLockdown()and (x.value==LEAVE_QUEUE or x.value==ENTER_BATTLE) then x:Disable() end end BI_LEAVE_QUEUE_BTN:SetAttribute('clickbutton',leave_b)".. "\r\n" .. "/stopmacro [combat]".. "\r\n" .. "/click BI_LEAVE_QUEUE_BTN")
+        t:SetAttribute("macrotext", "/click MiniMapBattlefieldFrame RightButton" .. "\r\n" .. leavequeue_text .. "\r\n" .. "/stopmacro [combat]".. "\r\n" .. "/click BI_LEAVE_QUEUE_BTN")
         t:Hide()
         leavequeuebtn = t
     end
