@@ -393,7 +393,7 @@ RegEvent("ADDON_LOADED", function()
             local text = factionLoc[faction]
 
             for c, n in pairs(stat.class) do
-                text = text .. " " .. classLoc[c] .. ":" .. n
+                text = text .. " " .. ADDONSELF.CLASS_LOC[c] .. ":" .. n
             end
 
             if stat.maxrealmc / stat.count  > 0.15 and stat.maxrealmc > 1 then
