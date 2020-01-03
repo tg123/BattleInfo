@@ -345,10 +345,6 @@ RegEvent("ADDON_LOADED", function()
 
         f.num = num
 
-
-        local classLoc = {}
-        FillLocalizedClassList(classLoc)
-
         local factionLoc = {}
         factionLoc[FACTION_ALLIANCE] = C_CreatureInfo.GetFactionInfo(1).name
         factionLoc[FACTION_HORDE] = C_CreatureInfo.GetFactionInfo(2).name
@@ -374,7 +370,7 @@ RegEvent("ADDON_LOADED", function()
 
             for c, n in pairs(stat.class) do
                 local color = GetClassColorObj(c)
-                tooltip:AddDoubleLine(color:WrapTextInColorCode(classLoc[c]), n)
+                tooltip:AddDoubleLine(color:WrapTextInColorCode(ADDONSELF.CLASS_LOC[c]), n)
             end
 
             tooltip:Show()
