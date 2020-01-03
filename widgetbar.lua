@@ -23,7 +23,7 @@ local spirittime
 
 local function GetSpiritHealerText()
 	if spirittime then
-		local c = 30015
+		local c = 31515 -- magic :(
 		local x = mod(c - mod((( GetTime() - spirittime)) * 1000, c), c) / 1000 + 1
 		if x > 30 then
 			return L["Spirit healing ..."]
