@@ -213,7 +213,7 @@ RegEvent("ADDON_LOADED", function()
                 if btn_name==ENTER_BATTLE then 
                     this_queue=true 
                 end 
-                if this_queue and btn_name==LEAVE_QUEUE then 
+                if this_queue and btn_name==LEAVE_QUEUE and not leave_b then
                     leave_b=x 
                 elseif InCombatLockdown()and (btn_name==LEAVE_QUEUE or btn_name==ENTER_BATTLE) then 
                     x:Disable() 
