@@ -413,7 +413,11 @@ RegEvent("ADDON_LOADED", function()
             t:SetScript("OnEnter", function()
                 showTooltip(FACTION_ALLIANCE)
             end)
+            WorldStateScoreFrameTab2:HookScript("OnEnter", function()
+                showTooltip(FACTION_ALLIANCE)
+            end)
             t:SetScript("OnLeave", hideTooltip)
+            WorldStateScoreFrameTab2:HookScript("OnLeave", hideTooltip)            
             t:RegisterForDrag("LeftButton")
             t:SetScript("OnDragStart", dragStart)
             t:SetScript("OnDragStop", dragStop)
@@ -434,7 +438,11 @@ RegEvent("ADDON_LOADED", function()
             t:SetScript("OnEnter", function()
                 showTooltip(FACTION_HORDE)
             end)
+            WorldStateScoreFrameTab3:HookScript("OnEnter", function()
+                showTooltip(FACTION_HORDE)
+            end)
             t:SetScript("OnLeave", hideTooltip)
+            WorldStateScoreFrameTab3:HookScript("OnLeave", hideTooltip)               
             t:RegisterForDrag("LeftButton")
             t:SetScript("OnDragStart", dragStart)
             t:SetScript("OnDragStop", dragStop)
@@ -468,4 +476,22 @@ RegEvent("ADDON_LOADED", function()
     end
 
     UIWidgetTopCenterContainerFrame:HookScript("OnUpdate", OnUpdate)
+
+    local MAX_SCORE_BUTTONS = 22
+    hooksecurefunc("WorldStateScoreFrame_Update", function() 
+        for i = 1, MAX_SCORE_BUTTONS do
+            local scoreButton = _G["WorldStateScoreButton"..i]
+
+            if scoreButton.index then
+                local _, _, _, _, _, _, _, _, _, filename = GetBattlefieldScore(scoreButton.index)
+
+                local text = scoreButton.name.text:GetText()
+
+                if text then
+                    local color = GetClassColorObj(filename)
+                    scoreButton.name.text:SetText(color:WrapTextInColorCode(text))
+                end
+            end
+        end
+    end)
 end)
