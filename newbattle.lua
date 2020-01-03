@@ -161,6 +161,14 @@ RegEvent("ADDON_LOADED", function()
 
     local joinqueuebtn
     local joinqueue_text
+    local click_text=""
+    for index=1,GetMaxBattlefieldID() do
+        local loc = index*3-1
+        local loc2 = index*3
+        click_text =  click_text .. "\r\n" .. "/click [combat]DropDownList1Button" .. loc
+        click_text = click_text .. "\r\n" .. "/click [combat]DropDownList1Button" .. loc2
+    end
+    
     do
         local join_btn=CreateFrame('Button', 'BI_JOIN_QUEUE_BTN', f, 'SecureActionButtonTemplate')
         join_btn:SetAttribute('type', 'click')
@@ -179,11 +187,12 @@ RegEvent("ADDON_LOADED", function()
         
         joinqueue_text = joinqueue_text:gsub("%s+/run","/run")
         joinqueue_text = joinqueue_text:gsub("%s+"," ")
+        joinqueue_text = joinqueue_text .. click_text
         local t = CreateFrame("Button", nil, f, "UIPanelButtonTemplate, SecureActionButtonTemplate")
         t:SetFrameStrata("TOOLTIP")
         t:SetText(ENTER_BATTLE)
         t:SetAttribute("type", "macro") -- left click causes macro
-        t:SetAttribute("macrotext", "/click MiniMapBattlefieldFrame RightButton" .. "\r\n" .. joinqueue_text .. "\r\n" .. "/stopmacro [combat]".. "\r\n" .. "/click BI_JOIN_QUEUE_BTN") -- text for macro on left click
+        t:SetAttribute("macrotext", "/click MiniMapBattlefieldFrame RightButton" .. "\r\n" .. joinqueue_text .. "\r\n" .. "/click [nocombat]BI_JOIN_QUEUE_BTN") -- text for macro on left click
         t:Hide()
        
         t:SetScript("OnUpdate", function()
@@ -213,8 +222,8 @@ RegEvent("ADDON_LOADED", function()
                 if btn_name==ENTER_BATTLE then 
                     this_queue=true 
                 end 
-                if this_queue and btn_name==LEAVE_QUEUE and not leave_b then
-                    leave_b=x 
+                if this_queue and btn_name==LEAVE_QUEUE and not leave_b then 
+                    leave_b=x
                 elseif InCombatLockdown()and (btn_name==LEAVE_QUEUE or btn_name==ENTER_BATTLE) then 
                     x:Disable() 
                 end 
@@ -224,11 +233,12 @@ RegEvent("ADDON_LOADED", function()
         
         leavequeue_text = leavequeue_text:gsub("%s+/run","/run")
         leavequeue_text = leavequeue_text:gsub("%s+"," ")
+        leavequeue_text = leavequeue_text .. click_text
         local t = CreateFrame("Button", nil, f, "UIPanelButtonTemplate, SecureActionButtonTemplate")
         t:SetFrameStrata("TOOLTIP")
         t:SetText(L["CTRL+Hide=Leave"])
         t:SetAttribute("type", "macro") -- left click causes macro
-        t:SetAttribute("macrotext", "/click MiniMapBattlefieldFrame RightButton" .. "\r\n" .. leavequeue_text .. "\r\n" .. "/stopmacro [combat]".. "\r\n" .. "/click BI_LEAVE_QUEUE_BTN")
+        t:SetAttribute("macrotext", "/click MiniMapBattlefieldFrame RightButton" .. "\r\n" .. leavequeue_text .. "\r\n" .. "/click [nocombat]BI_LEAVE_QUEUE_BTN")
         t:Hide()
         leavequeuebtn = t
     end
