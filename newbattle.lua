@@ -219,7 +219,7 @@ RegEvent("ADDON_LOADED", function()
                     x:Disable() 
                 end 
             end 
-            BI_LEAVE_QUEUE_BTN:SetAttribute('clickbutton',leave_b)"
+            BI_LEAVE_QUEUE_BTN:SetAttribute('clickbutton',leave_b)
         ]]
         
         leavequeue_text = leavequeue_text:gsub("%s+/run","/run")
