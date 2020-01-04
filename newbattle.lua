@@ -183,7 +183,7 @@ RegEvent("ADDON_LOADED", function()
     do
         local join_click_text=""
         for index=1,GetMaxBattlefieldID() do
-            loc = index * index + 1
+            loc = (index-1)*3 + 2
             join_click_text =  join_click_text .. "\r\n" .. "/click [combat]DropDownList1Button" .. loc
         end
         local join_btn=CreateFrame('Button', 'BI_JOIN_QUEUE_BTN', f, 'SecureActionButtonTemplate')
@@ -230,7 +230,7 @@ RegEvent("ADDON_LOADED", function()
     do
         local leave_click_text=""
         for index=1,GetMaxBattlefieldID() do
-            loc = index * index + 2
+            loc = (index-1)*3 + 3
             leave_click_text =  leave_click_text .. "\r\n" .. "/click [combat]DropDownList1Button" .. loc
         end
         local leave_btn=CreateFrame('Button', 'BI_LEAVE_QUEUE_BTN', f, 'SecureActionButtonTemplate')
