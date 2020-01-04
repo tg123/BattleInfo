@@ -211,7 +211,6 @@ RegEvent("ADDON_LOADED", function()
         t:Hide()
         t:SetAttribute("macrotext", "/click MiniMapBattlefieldFrame RightButton" .. "\r\n" .. joinqueue_text .. "\r\n" .. "/click [nocombat]BI_JOIN_QUEUE_BTN") -- text for macro on left click
         t:SetScript("OnUpdate", function()
-            t.updateMacro()
 
             for i = 1, MAX_BATTLEFIELD_QUEUES do
                 local time = GetBattlefieldPortExpiration(i)
@@ -316,7 +315,6 @@ RegEvent("ADDON_LOADED", function()
 
             if not self.button2.batteinfohooked then
                 self.button2:SetScript("OnUpdate", function()
-                    leavequeuebtn.updateMacro()
 
                     if IsControlKeyDown() then
                         leavequeuebtn:Show()
