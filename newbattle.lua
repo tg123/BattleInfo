@@ -161,15 +161,13 @@ RegEvent("ADDON_LOADED", function()
 
     local joinqueuebtn
     local joinqueue_text
-    local click_text=""
-    for index=1,GetMaxBattlefieldID() do
-        local loc = index*3-1
-        local loc2 = index*3
-        click_text =  click_text .. "\r\n" .. "/click [combat]DropDownList1Button" .. loc
-        click_text = click_text .. "\r\n" .. "/click [combat]DropDownList1Button" .. loc2
-    end
-    
+
     do
+        local join_click_text=""
+        for index=1,GetMaxBattlefieldID() do
+            loc = index * index + 1
+            join_click_text =  join_click_text .. "\r\n" .. "/click [combat]DropDownList1Button" .. loc
+        end
         local join_btn=CreateFrame('Button', 'BI_JOIN_QUEUE_BTN', f, 'SecureActionButtonTemplate')
         join_btn:SetAttribute('type', 'click')
         joinqueue_text=[[
@@ -187,7 +185,7 @@ RegEvent("ADDON_LOADED", function()
         
         joinqueue_text = joinqueue_text:gsub("%s+/run","/run")
         joinqueue_text = joinqueue_text:gsub("%s+"," ")
-        joinqueue_text = joinqueue_text .. click_text
+        joinqueue_text = joinqueue_text .. join_click_text
         local t = CreateFrame("Button", nil, f, "UIPanelButtonTemplate, SecureActionButtonTemplate")
         t:SetFrameStrata("TOOLTIP")
         t:SetText(ENTER_BATTLE)
@@ -213,6 +211,11 @@ RegEvent("ADDON_LOADED", function()
     local leavequeuebtn
     local leavequeue_text
     do
+        local leave_click_text=""
+        for index=1,GetMaxBattlefieldID() do
+            loc = index * index + 2
+            leave_click_text =  leave_click_text .. "\r\n" .. "/click [combat]DropDownList1Button" .. loc
+        end
         local leave_btn=CreateFrame('Button', 'BI_LEAVE_QUEUE_BTN', f, 'SecureActionButtonTemplate')
         leave_btn:SetAttribute('type', 'click')
         leavequeue_text=[[
@@ -233,7 +236,7 @@ RegEvent("ADDON_LOADED", function()
         
         leavequeue_text = leavequeue_text:gsub("%s+/run","/run")
         leavequeue_text = leavequeue_text:gsub("%s+"," ")
-        leavequeue_text = leavequeue_text .. click_text
+        leavequeue_text = leavequeue_text .. leave_click_text
         local t = CreateFrame("Button", nil, f, "UIPanelButtonTemplate, SecureActionButtonTemplate")
         t:SetFrameStrata("TOOLTIP")
         t:SetText(L["CTRL+Hide=Leave"])
