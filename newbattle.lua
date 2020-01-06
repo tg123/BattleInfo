@@ -190,7 +190,7 @@ RegEvent("ADDON_LOADED", function()
         t.updateMacro = function()
             local loc = SearchDropMenuLoc(t.showid, DROP_MENU_LOC_ENTER)
             if loc then
-                t:SetAttribute("macrotext", "/click MiniMapBattlefieldFrame RightButton" .. "\r\n" .. "/click DropDownList1Button" .. (loc)) -- text for macro on left click
+                t:SetAttribute("macrotext", "/click MiniMapBattlefieldFrame RightButton" .. "\r\n" .. "/click [nocombat]DropDownList1Button" .. (loc)) -- text for macro on left click
             end
         end        
 
@@ -222,7 +222,7 @@ RegEvent("ADDON_LOADED", function()
         t.updateMacro = function()
             local loc = SearchDropMenuLoc(t.showid, DROP_MENU_LOC_LEAVE)
             if loc then
-                t:SetAttribute("macrotext", "/click MiniMapBattlefieldFrame RightButton" .. "\r\n" .. "/click DropDownList1Button" .. (loc)) -- text for macro on left click
+                t:SetAttribute("macrotext", "/click MiniMapBattlefieldFrame RightButton" .. "\r\n" .. "/click [nocombat]DropDownList1Button" .. (loc)) -- text for macro on left click
             end
         end
 
@@ -266,6 +266,7 @@ RegEvent("ADDON_LOADED", function()
         local tx = self.text:GetText()
         if InCombatLockdown() then
             ADDONSELF.Print(L["Button may not work properly during combat"])
+            return
         end
 
         if replaceEnter then
