@@ -182,7 +182,7 @@ RegEvent("ADDON_LOADED", function()
     local joinqueuebtn
     do
         local join_click_text=""
-        for index=1,GetMaxBattlefieldID() do
+        for index=1,MAX_BATTLEFIELD_QUEUES do
             loc = (index-1)*3 + 2
             join_click_text =  join_click_text .. "\r\n" .. "/click [combat]DropDownList1Button" .. loc
         end
@@ -229,7 +229,7 @@ RegEvent("ADDON_LOADED", function()
     local leavequeuebtn
     do
         local leave_click_text=""
-        for index=1,GetMaxBattlefieldID() do
+        for index=1,MAX_BATTLEFIELD_QUEUES do
             loc = (index-1)*3 + 3
             leave_click_text =  leave_click_text .. "\r\n" .. "/click [combat]DropDownList1Button" .. loc
         end
