@@ -128,6 +128,11 @@ RegEvent("PLAYER_LOGIN", function()
     end
 
     do
+        local b = createCheckbox(L["Auto focus on Quick Join Text box"], "focus_quickjoin", true)
+        b:SetPoint("TOPLEFT", f, 15, nextpos())
+    end
+
+    do
         local s = CreateFrame("Slider", f, f, "OptionsSliderTemplate")
         s:SetOrientation('HORIZONTAL')
         s:SetHeight(14)
