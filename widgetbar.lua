@@ -487,7 +487,7 @@ RegEvent("ADDON_LOADED", function()
 
                 local text = scoreButton.name.text:GetText()
 
-                if text then
+                if text and filename then
                     local color = GetClassColorObj(filename)
                     scoreButton.name.text:SetText(color:WrapTextInColorCode(text))
                 end

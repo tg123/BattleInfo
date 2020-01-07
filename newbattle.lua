@@ -300,6 +300,7 @@ RegEvent("ADDON_LOADED", function()
         local tx = self.text:GetText()
         if InCombatLockdown() then
             ADDONSELF.Print(L["Button may not work properly during combat"])
+            return
         end
 
         if replaceEnter then
