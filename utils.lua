@@ -34,9 +34,15 @@ BattleZoneHelper.BGID_WARSONG = 2
 BattleZoneHelper.BGID_ARATHI = 3
 
 BattleZoneHelper.BGID_MAPNAME_MAP = {
+    [BattleZoneHelper.BGID_ALTERAC] = BattleZoneHelper.MAPNAME_ALTERAC,
+    [BattleZoneHelper.BGID_WARSONG] = BattleZoneHelper.MAPNAME_WARSONG, 
+    [BattleZoneHelper.BGID_ARATHI]  = BattleZoneHelper.MAPNAME_ARATHI,
+}
+
+BattleZoneHelper.MAPNAME_BGID_MAP = {
     [BattleZoneHelper.MAPNAME_ALTERAC] = BattleZoneHelper.BGID_ALTERAC,
     [BattleZoneHelper.MAPNAME_WARSONG] = BattleZoneHelper.BGID_WARSONG,
-    [BattleZoneHelper.MAPNAME_ARATHI] = BattleZoneHelper.BGID_ARATHI,
+    [BattleZoneHelper.MAPNAME_ARATHI]  = BattleZoneHelper.BGID_ARATHI,
 }
 
 
@@ -74,7 +80,7 @@ function BattleZoneHelper:GetCurrentBG()
         local status, mapName, instanceID = GetBattlefieldStatus(i);
 
         if status == "active" then
-            return self.BGID_MAPNAME_MAP[mapName], instanceID
+            return self.MAPNAME_BGID_MAP[mapName], instanceID
         end
     end
 end

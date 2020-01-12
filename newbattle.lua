@@ -7,8 +7,8 @@ local RegisterKeyChangedCallback = ADDONSELF.RegisterKeyChangedCallback
 local elapseCache = {}
 
 local function GetElapseFromCache(nameOrId, instanceID)
-    if BattleZoneHelper.BGID_MAPNAME_MAP[nameOrId] then
-        nameOrId = BattleZoneHelper.BGID_MAPNAME_MAP[nameOrId]
+    if BattleZoneHelper.MAPNAME_BGID_MAP[nameOrId] then
+        nameOrId = BattleZoneHelper.MAPNAME_BGID_MAP[nameOrId]
     end
 
     local key = nameOrId .. "-" .. instanceID
