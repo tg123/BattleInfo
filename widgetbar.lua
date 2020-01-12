@@ -251,16 +251,19 @@ RegEvent("UPDATE_BATTLEFIELD_SCORE", function()
         realm = {},
         maxrealm = "",
         maxrealmc = 0,
+        rank = 0,
     }
     stat[FACTION_HORDE] = {
         class = {},
         realm = {},
         maxrealm = "",
         maxrealmc = 0,
+        rank = 0,
     }
 
     for i = 1, 80 do
-        local playerName, _, _, _, _, faction, _, _, _, filename = GetBattlefieldScore(i)
+        local playerName, _, _, _, _, faction, rank, _, _, filename = GetBattlefieldScore(i)
+
         if filename then
             if not stat[faction].class[filename] then
                 stat[faction].class[filename] = 0
@@ -281,6 +284,8 @@ RegEvent("UPDATE_BATTLEFIELD_SCORE", function()
                 stat[faction].maxrealmc = stat[faction].realm[realm]
                 stat[faction].maxrealm  = realm
             end
+
+            stat[faction].rank = stat[faction].rank + rank
         end
     end
 
@@ -368,6 +373,13 @@ RegEvent("ADDON_LOADED", function()
                 tooltip:AddLine(" ")
             end
 
+            if stat.rank > 0 then
+                local rank = math.floor(stat.rank / stat.count)
+                local rankName, rankNumber = GetPVPRankInfo(rank, faction)
+                tooltip:AddDoubleLine(L["Avg Rank"], rankName .. " (R" .. rankNumber .. ")")
+                tooltip:AddLine(" ")
+            end
+
             for c, n in pairs(stat.class) do
                 local color = GetClassColorObj(c)
                 tooltip:AddDoubleLine(color:WrapTextInColorCode(ADDONSELF.CLASS_LOC[c]), n)
@@ -399,6 +411,12 @@ RegEvent("ADDON_LOADED", function()
             if stat.maxrealmc / stat.count  > 0.15 and stat.maxrealmc > 1 then
                 text = text .. " " .. stat.maxrealm .. ":" .. string.format("%d/%d", stat.maxrealmc, stat.count)
             end
+
+            if stat.rank > 0 then
+                local rank = math.floor(stat.rank / stat.count)
+                local rankName, rankNumber = GetPVPRankInfo(rank, faction)
+                text = text .. " " .. L["Avg Rank"] .. ":" .. rankName .. " (R" .. rankNumber .. ")"
+            end            
 
             SendChatMessage(text, "INSTANCE_CHAT")
         end
