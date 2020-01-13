@@ -17,6 +17,7 @@ f:SetWidth(200)
 f:SetHeight(180)
 f:SetBackdropColor(0, 0, 0)
 f:SetPoint("TOPLEFT", HonorFrame, "TOPRIGHT" , -30, -15)
+f:Hide()
 
 local loc = 50
 local function nextloc()
