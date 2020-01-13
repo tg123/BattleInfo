@@ -1,6 +1,8 @@
 local _, ADDONSELF = ...
 local L = ADDONSELF.L
 local RegEvent = ADDONSELF.regevent
+local RegAddonLoaded = ADDONSELF.regaddonloaded
+
 local RegisterKeyChangedCallback = ADDONSELF.RegisterKeyChangedCallback 
 
 -- local SCALE = 1.5
@@ -30,29 +32,38 @@ local function ReplacePinTextureIfNeeded(pin)
     pin:SetPinTexture("party", UNIT_TEXTURE)
 end
 
-RegEvent("PLAYER_LOGIN", function()
+local function UpdatePinTexture()
+    if not BattlefieldMapFrame then
+        return
+    end
+
+    if replaceTexture then
+        for pin in BattlefieldMapFrame:EnumeratePinsByTemplate("GroupMembersPinTemplate") do
+            pin:SetAppearanceField("party", "useClassColor", true)
+            pin:SetAppearanceField("raid", "useClassColor", true)
+
+            ReplacePinTextureIfNeeded(pin)
+        end
+    else
+        for pin in BattlefieldMapFrame:EnumeratePinsByTemplate("GroupMembersPinTemplate") do
+            pin:SetAppearanceField("party", "useClassColor", UNIT_POSITION_FRAME_DEFAULT_USE_CLASS_COLOR)
+            pin:SetAppearanceField("raid", "useClassColor", UNIT_POSITION_FRAME_DEFAULT_USE_CLASS_COLOR)
+            pin:UpdateAppearanceData()
+        end
+    end
+end
+
+RegAddonLoaded("Blizzard_BattlefieldMap", function()
     for pin in BattlefieldMapFrame:EnumeratePinsByTemplate("GroupMembersPinTemplate") do
         hooksecurefunc(pin, "UpdateAppearanceData", ReplacePinTextureIfNeeded)
     end
+
+    UpdatePinTexture()
 end)
 
 RegEvent("ADDON_LOADED", function()
     RegisterKeyChangedCallback("map_unit_color", function(v)
         replaceTexture = v
-
-        if v then
-            for pin in BattlefieldMapFrame:EnumeratePinsByTemplate("GroupMembersPinTemplate") do
-                pin:SetAppearanceField("party", "useClassColor", true)
-                pin:SetAppearanceField("raid", "useClassColor", true)
-
-                ReplacePinTextureIfNeeded(pin)
-            end
-        else
-            for pin in BattlefieldMapFrame:EnumeratePinsByTemplate("GroupMembersPinTemplate") do
-                pin:SetAppearanceField("party", "useClassColor", UNIT_POSITION_FRAME_DEFAULT_USE_CLASS_COLOR)
-                pin:SetAppearanceField("raid", "useClassColor", UNIT_POSITION_FRAME_DEFAULT_USE_CLASS_COLOR)
-                pin:UpdateAppearanceData()
-            end
-        end
+        UpdatePinTexture()
     end)    
 end)
