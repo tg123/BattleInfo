@@ -37,6 +37,11 @@ local function DrawStat(bgid)
     p:SetWidth(200)
     p:SetHeight(60)
 
+    -- p:SetScript("OnMouseUp", function()
+    --     DEFAULT_CHAT_FRAME.editBox:SetText(DEFAULT_CHAT_FRAME.editBox:GetText() .. BattleZoneHelper.BGID_MAPNAME_MAP[bgid] .. " " .. labels[bgid]:GetText())
+    --     DEFAULT_CHAT_FRAME.editBox:Show()
+    -- end)
+
     do
         local t = p:CreateFontString(nil, "ARTWORK", "GameFontNormal")
         t:SetText(BattleZoneHelper.BGID_MAPNAME_MAP[bgid])
