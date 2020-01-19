@@ -181,21 +181,37 @@ RegEvent("ADDON_LOADED", function()
 
     local joinqueuebtn
     do
+        local join_click_text=""
+        for index=1,MAX_BATTLEFIELD_QUEUES do
+            loc = (index-1)*3 + 2
+            join_click_text =  join_click_text .. "\r\n" .. "/click [combat]DropDownList1Button" .. loc
+        end
+        local join_btn=CreateFrame('Button', 'BI_JOIN_QUEUE_BTN', f, 'SecureActionButtonTemplate')
+        join_btn:SetAttribute('type', 'click')
+        joinqueue_text=[[
+            /run local join_b,btn_name=nil,nil; 
+            for _,x in ipairs({DropDownList1:GetChildren()})do
+                btn_name=x.value
+                if btn_name==ENTER_BATTLE then 
+                    join_b=x 
+                elseif InCombatLockdown()and btn_name==LEAVE_QUEUE then
+                    x:Disable() 
+                end 
+            end 
+            BI_JOIN_QUEUE_BTN:SetAttribute('clickbutton',join_b)
+        ]]
+        
+        joinqueue_text = joinqueue_text:gsub("%s+/run","/run")
+        joinqueue_text = joinqueue_text:gsub("%s+"," ")
+        joinqueue_text = joinqueue_text .. join_click_text
         local t = CreateFrame("Button", nil, nil, "UIPanelButtonTemplate, SecureActionButtonTemplate")
+
         t:SetFrameStrata("TOOLTIP")
         t:SetText(ENTER_BATTLE)
         t:SetAttribute("type", "macro") -- left click causes macro
         t:Hide()
-
-        t.updateMacro = function()
-            local loc = SearchDropMenuLoc(t.showid, DROP_MENU_LOC_ENTER)
-            if loc then
-                t:SetAttribute("macrotext", "/click MiniMapBattlefieldFrame RightButton" .. "\r\n" .. "/click [nocombat]DropDownList1Button" .. (loc)) -- text for macro on left click
-            end
-        end        
-
+        t:SetAttribute("macrotext", "/click MiniMapBattlefieldFrame RightButton" .. "\r\n" .. joinqueue_text .. "\r\n" .. "/click [nocombat]BI_JOIN_QUEUE_BTN") -- text for macro on left click
         t:SetScript("OnUpdate", function()
-            t.updateMacro()
 
             for i = 1, MAX_BATTLEFIELD_QUEUES do
                 local time = GetBattlefieldPortExpiration(i)
@@ -213,19 +229,38 @@ RegEvent("ADDON_LOADED", function()
     -- HAHAHAHAHA 
     local leavequeuebtn
     do
+        local leave_click_text=""
+        for index=1,MAX_BATTLEFIELD_QUEUES do
+            loc = (index-1)*3 + 3
+            leave_click_text =  leave_click_text .. "\r\n" .. "/click [combat]DropDownList1Button" .. loc
+        end
+        local leave_btn=CreateFrame('Button', 'BI_LEAVE_QUEUE_BTN', f, 'SecureActionButtonTemplate')
+        leave_btn:SetAttribute('type', 'click')
+        leavequeue_text=[[
+            /run local leave_b,this_queue,btn_name=nil,nil,nil;
+            for _,x in ipairs({DropDownList1:GetChildren()})do
+                btn_name=x.value
+                if btn_name==ENTER_BATTLE then 
+                    this_queue=true 
+                end 
+                if this_queue and btn_name==LEAVE_QUEUE and not leave_b then 
+                    leave_b=x
+                elseif InCombatLockdown()and (btn_name==LEAVE_QUEUE or btn_name==ENTER_BATTLE) then 
+                    x:Disable() 
+                end 
+            end 
+            BI_LEAVE_QUEUE_BTN:SetAttribute('clickbutton',leave_b)
+        ]]
+        
+        leavequeue_text = leavequeue_text:gsub("%s+/run","/run")
+        leavequeue_text = leavequeue_text:gsub("%s+"," ")
+        leavequeue_text = leavequeue_text .. leave_click_text
         local t = CreateFrame("Button", nil, nil, "UIPanelButtonTemplate, SecureActionButtonTemplate")
         t:SetFrameStrata("TOOLTIP")
         t:SetText(L["CTRL+Hide=Leave"])
         t:SetAttribute("type", "macro") -- left click causes macro
         t:Hide()
-
-        t.updateMacro = function()
-            local loc = SearchDropMenuLoc(t.showid, DROP_MENU_LOC_LEAVE)
-            if loc then
-                t:SetAttribute("macrotext", "/click MiniMapBattlefieldFrame RightButton" .. "\r\n" .. "/click [nocombat]DropDownList1Button" .. (loc)) -- text for macro on left click
-            end
-        end
-
+        t:SetAttribute("macrotext", "/click MiniMapBattlefieldFrame RightButton" .. "\r\n" .. leavequeue_text .. "\r\n" .. "/click [nocombat]BI_LEAVE_QUEUE_BTN")
         leavequeuebtn = t
     end
 
@@ -282,7 +317,6 @@ RegEvent("ADDON_LOADED", function()
 
             if not self.button2.batteinfohooked then
                 self.button2:SetScript("OnUpdate", function()
-                    leavequeuebtn.updateMacro()
 
                     if IsControlKeyDown() then
                         leavequeuebtn:Show()
