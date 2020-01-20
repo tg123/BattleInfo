@@ -173,7 +173,7 @@ RegEvent("PLAYER_LOGIN", function()
     end    
 
     do
-        local b = createCheckbox(L["World State Score panel unit color"], "wsp_unit_color", true)
+        local b = createCheckbox(L["World State Score panel class color"], "wsp_unit_color", true)
         b:SetPoint("TOPLEFT", f, 15, nextpos())
     end    
 
