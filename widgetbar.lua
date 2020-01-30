@@ -350,8 +350,10 @@ RegEvent("ADDON_LOADED", function()
             if stat.rank > 0 then
                 local rank = math.floor(stat.rank / stat.count)
                 local rankName, rankNumber = GetPVPRankInfo(rank, faction)
-                tooltip:AddDoubleLine(L["Avg Rank"], rankName .. " (R" .. rankNumber .. ")")
-                tooltip:AddLine(" ")
+                if rankNumber then
+                    tooltip:AddDoubleLine(L["Avg Rank"], rankName .. " (R" .. rankNumber .. ")")
+                    tooltip:AddLine(" ")
+                end
             end
 
             for c, n in pairs(stat.class) do
