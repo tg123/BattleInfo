@@ -131,7 +131,7 @@ local function UpdateStatLabels()
                 s.total = s.total + ((BatteInfoStat[bgid][today - i] or {}).total or 0)
             end
 
-            stat[HONOR_THISWEEK] = s
+            stat[HONOR_LASTWEEK] = s
         end
 
         for n, l in pairs(ls) do
