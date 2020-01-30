@@ -128,7 +128,7 @@ RegEvent("PLAYER_LOGIN", function()
     end
 
     do
-        local b = createCheckbox(L["Auto focus on Quick Join Text box"], "focus_quickjoin", true)
+        local b = createCheckbox(L["Auto focus on Quick Join Text box"], "focus_quickjoin", false)
         b:SetPoint("TOPLEFT", f, 15, nextpos())
     end
 
