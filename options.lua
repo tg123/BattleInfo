@@ -178,6 +178,11 @@ RegEvent("PLAYER_LOGIN", function()
     end    
 
     do
+        local b = createCheckbox(L["Show statistics panel"], "stat_window", true)
+        b:SetPoint("TOPLEFT", f, 15, nextpos())
+    end    
+
+    do
         local b = CreateFrame("Button", nil, f, "GameMenuButtonTemplate")
         b:SetWidth(200)
         b:SetHeight(25)

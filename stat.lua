@@ -2,6 +2,8 @@ local _, ADDONSELF = ...
 local L = ADDONSELF.L
 local RegEvent = ADDONSELF.regevent
 local BattleZoneHelper = ADDONSELF.BattleZoneHelper
+local RegisterKeyChangedCallback = ADDONSELF.RegisterKeyChangedCallback 
+
 
 local f = CreateFrame("Frame", nil, HonorFrame)
 f:SetBackdrop({ 
@@ -130,5 +132,13 @@ RegEvent("ADDON_LOADED", function()
     end
 
     UpdateStatLabels()
+
+    RegisterKeyChangedCallback("stat_window", function(v)
+        if v then
+            f:Show()
+        else
+            f:Hide()
+        end
+    end)   
     
 end)
