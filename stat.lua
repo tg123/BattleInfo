@@ -181,8 +181,6 @@ RegEvent("UPDATE_BATTLEFIELD_STATUS", function()
                 stat.win = stat.win or 0
                 stat.total = stat.total or 0
 
-                stat[today] = stat[today].win
-                
                 stat.total = stat.total + 1
 
                 if win then
