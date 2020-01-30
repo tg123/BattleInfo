@@ -36,7 +36,7 @@ local function nextloc()
 end
 
 local function Today()
-    return math.floor((time() + time(date("*t", 0)) - time(date("!*t", 0))) / 86400) 
+    return math.floor((time() + time(date("*t", time())) - time(date("!*t", time()))) / 86400) 
 end
 
 local labels = {}
