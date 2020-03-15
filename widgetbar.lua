@@ -210,8 +210,30 @@ RegEvent("PLAYER_ENTERING_WORLD", function()
     f.num.alliance:SetText("")
     f.num.horde:SetText("")
     f.num.stat = nil
-    
-    UpdateAlteracNumbers()
+
+    if BattleZoneHelper:IsInAlterac() then
+        UpdateAlteracNumbers()
+
+        f.num:SetPoint("TOPLEFT", f, -35, 0)    
+
+    else
+
+        -- calibrate num pos
+        local r = f
+        for _, w in pairs({UIWidgetTopCenterContainerFrame:GetChildren()}) do
+            if w.Icon then
+
+                local _, _, p = w:GetPoint()
+                if p == "TOP" then
+                    r = w.Icon
+                    break
+                end
+            end
+        end
+
+        f.num:SetPoint("TOPLEFT", r, -15, 0)    
+    end    
+
 end)
 
 local FACTION_HORDE = 0
@@ -318,7 +340,6 @@ RegEvent("ADDON_LOADED", function()
 
         local num = CreateFrame("Frame", nil, f)
         num:SetSize(35, 42)
-        num:SetPoint("TOPLEFT", f, -35, 0)
 
         num:SetScript("OnLeave", hideTooltip)
 
