@@ -440,7 +440,7 @@ RegEvent("ADDON_LOADED", function()
             t:SetScript("OnDragStart", dragStart)
             t:SetScript("OnDragStop", dragStop)
 
-            local l = t:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+            local l = t:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
             l:SetPoint("TOPLEFT", num, 0, -7)
             f.num.alliance = l
             -- l:SetText("10")
@@ -465,7 +465,7 @@ RegEvent("ADDON_LOADED", function()
             t:SetScript("OnDragStart", dragStart)
             t:SetScript("OnDragStop", dragStop)
 
-            local l = t:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+            local l = t:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
             l:SetPoint("TOPLEFT", num, 0, -30)
             f.num.horde = l
             -- l:SetText("20")
