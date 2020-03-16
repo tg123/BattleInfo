@@ -210,29 +210,10 @@ RegEvent("PLAYER_ENTERING_WORLD", function()
     f.num.alliance:SetText("")
     f.num.horde:SetText("")
     f.num.stat = nil
+    f.num:ClearAllPoints()
+    f.num:Hide()
 
-    if BattleZoneHelper:IsInAlterac() then
-        UpdateAlteracNumbers()
-
-        f.num:SetPoint("TOPLEFT", f, -35, 0)    
-
-    else
-
-        -- calibrate num pos
-        local r = f
-        for _, w in pairs({UIWidgetTopCenterContainerFrame:GetChildren()}) do
-            if w.Icon then
-
-                local _, _, p = w:GetPoint()
-                if p == "TOP" then
-                    r = w.Icon
-                    break
-                end
-            end
-        end
-
-        f.num:SetPoint("TOPLEFT", r, -15, 0)    
-    end    
+    UpdateAlteracNumbers()
 
 end)
 
@@ -295,6 +276,28 @@ RegEvent("UPDATE_BATTLEFIELD_SCORE", function()
     f.num.horde:SetText(numHorde)
 
     f.num.stat = stat
+
+    if BattleZoneHelper:IsInAlterac() then
+        f.num:SetPoint("TOPLEFT", f, -35, 0)    
+        f.num:Show()
+    else
+
+        -- calibrate num pos
+        local r = f
+        for _, w in pairs({UIWidgetTopCenterContainerFrame:GetChildren()}) do
+            if w.Icon then
+
+                local _, _, p = w:GetPoint()
+                if p == "TOP" then
+                    r = w.Icon
+                    break
+                end
+            end
+        end
+
+        f.num:SetPoint("TOPLEFT", r, -15, 0)    
+        f.num:Show()
+    end    
 end)
 
 RegEvent("ADDON_LOADED", function()
