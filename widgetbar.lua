@@ -4,8 +4,8 @@ local RegEvent = ADDONSELF.regevent
 local BattleZoneHelper = ADDONSELF.BattleZoneHelper
 local RegisterKeyChangedCallback = ADDONSELF.RegisterKeyChangedCallback 
 
-local f = CreateFrame("Frame", nil, UIWidgetTopCenterContainerFrame)
-f:SetAllPoints()
+local f = CreateFrame("Frame")
+f:SetAllPoints(UIWidgetTopCenterContainerFrame)
 
 do
     local av = CreateFrame("Frame", nil, f)
