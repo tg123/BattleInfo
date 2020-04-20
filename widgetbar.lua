@@ -295,7 +295,7 @@ RegEvent("UPDATE_BATTLEFIELD_SCORE", function()
             end
         end
 
-        f.num:SetPoint("TOPLEFT", r, -15, 0)    
+        f.num:SetPoint("TOPLEFT", r, -15, 2)    
         f.num:Show()
     end    
 end)
