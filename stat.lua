@@ -4,6 +4,10 @@ local RegEvent = ADDONSELF.regevent
 local BattleZoneHelper = ADDONSELF.BattleZoneHelper
 local RegisterKeyChangedCallback = ADDONSELF.RegisterKeyChangedCallback 
 
+
+if HONOR_THISWEEK == nil then HONOR_THISWEEK = "This Week" end
+if HONOR_LASTWEEK == nil then HONOR_LASTWEEK = "Last Week" end
+
 local winratestats = {
     HONOR_TODAY, 
     HONOR_YESTERDAY, 
@@ -14,7 +18,7 @@ local winratestats = {
 
 local panelheight = (#winratestats) * 20
 
-local f = CreateFrame("Frame", nil, HonorFrame)
+local f = CreateFrame("Frame", nil, HonorFrame or PVPFrame, BackdropTemplateMixin and "BackdropTemplate" or nil)
 f:SetBackdrop({ 
     bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
     edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
@@ -25,9 +29,9 @@ f:SetBackdrop({
     insets = { left = 4, right = 4, top = 4, bottom = 4 },    
 })
 -- f:SetBackdropColor(0, 0, 0)
-f:SetPoint("TOPLEFT", HonorFrame, "TOPRIGHT" , -30, -15)
+f:SetPoint("TOPLEFT", HonorFrame or PVPFrame, "TOPRIGHT" , -30, -15)
 f:SetWidth(260)
-f:SetHeight((30 + panelheight + 10) * 3 + 10)
+f:SetHeight((30 + panelheight + 10) * (BattleZoneHelper.IsBCC and 4 or 3))
 
 local loc = 30 + panelheight
 local function nextloc()
@@ -43,7 +47,7 @@ local labels = {}
 
 local function DrawStat(bgid)
 
-    local p = CreateFrame("Frame", nil, f)
+    local p = CreateFrame("Frame", nil, f, BackdropTemplateMixin and "BackdropTemplate" or nil)
     p:SetBackdrop({ 
         edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
         edgeSize = 16,

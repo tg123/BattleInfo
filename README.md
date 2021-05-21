@@ -2,6 +2,8 @@
 
 Enrich your battleground information
 
+Curseforge Download: https://www.curseforge.com/wow/addons/battleinfo
+
 ## Features
 
  * New/Old Battleground indicator

@@ -19,6 +19,8 @@ FillLocalizedClassList(ADDONSELF.CLASS_LOC)
 local BattleZoneHelper = {}
 ADDONSELF.BattleZoneHelper = BattleZoneHelper
 
+BattleZoneHelper.IsBCC = (_G.WOW_PROJECT_ID == _G.WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
+
 BattleZoneHelper.MAPID_ALTERAC = 1459
 BattleZoneHelper.MAPNAME_ALTERAC = C_Map.GetMapInfo(BattleZoneHelper.MAPID_ALTERAC).name
 
@@ -45,6 +47,18 @@ BattleZoneHelper.MAPNAME_BGID_MAP = {
     [BattleZoneHelper.MAPNAME_ARATHI]  = BattleZoneHelper.BGID_ARATHI,
 }
 
+if BattleZoneHelper.IsBCC then
+    -- If we are running BCC then add Eye of the Storm
+
+    BattleZoneHelper.MAPID_STORM = 1956
+    BattleZoneHelper.MAPNAME_STORM = C_Map.GetMapInfo(BattleZoneHelper.MAPID_STORM).name
+
+    BattleZoneHelper.BGID_STORM = 4
+
+    BattleZoneHelper.BGID_MAPNAME_MAP[BattleZoneHelper.BGID_STORM] = BattleZoneHelper.MAPNAME_STORM
+    BattleZoneHelper.MAPNAME_BGID_MAP[BattleZoneHelper.MAPNAME_STORM] = BattleZoneHelper.BGID_STORM
+
+end
 
 -- Alliance Tower 10
 -- Alliance Tower Half 8
