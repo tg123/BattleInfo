@@ -516,7 +516,7 @@ RegEvent("ADDON_LOADED", function()
             for i = 1, MAX_SCORE_BUTTONS do
                 local scoreButton = _G["WorldStateScoreButton"..i]
 
-                if scoreButton.index then
+                if scoreButton and scoreButton.index then
                     local _, _, _, _, _, _, _, _, _, filename = GetBattlefieldScore(scoreButton.index)
 
                     local text = scoreButton.name.text:GetText()
