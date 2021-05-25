@@ -112,10 +112,10 @@ RegEvent("PLAYER_LOGIN", function()
         b:SetPoint("TOPLEFT", f, 15, nextpos())
     end
 
-    do
-        local b = createCheckbox(L["Show Alterac Valley score bar created by BattleInfo"], "show_alterac", true)
-        b:SetPoint("TOPLEFT", f, 15, nextpos())
-    end
+    -- do
+    --     local b = createCheckbox(L["Show Alterac Valley score bar created by BattleInfo"], "show_alterac", true)
+    --     b:SetPoint("TOPLEFT", f, 15, nextpos())
+    -- end
 
     do
         local b = createCheckbox(L["Replace Enter Battle Button with count down"], "replace_enter_battle", true)

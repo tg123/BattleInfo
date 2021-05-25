@@ -7,17 +7,17 @@ local RegisterKeyChangedCallback = ADDONSELF.RegisterKeyChangedCallback
 local f = CreateFrame("Frame")
 f:SetAllPoints(UIWidgetTopCenterContainerFrame)
 
-do
-    local av = CreateFrame("Frame", nil, f)
-    av:SetAllPoints()
-    f.av = av
-    av.forcehide = false
-    av.nums = {}
+-- do
+--     local av = CreateFrame("Frame", nil, f)
+--     av:SetAllPoints()
+--     f.av = av
+--     av.forcehide = false
+--     av.nums = {}
 
-    RegisterKeyChangedCallback("show_alterac", function(v)
-        av.forcehide = not v
-    end)
-end
+--     RegisterKeyChangedCallback("show_alterac", function(v)
+--         av.forcehide = not v
+--     end)
+-- end
 
 local spirittime
 
@@ -43,134 +43,134 @@ local function UpdatepiritHealerText()
 end
 
 
-local function CreateAlteracStatus()
+-- local function CreateAlteracStatus()
 
-    local av = f.av
+--     local av = f.av
     
-    if av.created then
-        return
-    end
+--     if av.created then
+--         return
+--     end
 
-    local poiequal = function(poi1, poi2)
-        local arr1 = {GetPOITextureCoords(poi1)}
-        local arr2 = {GetPOITextureCoords(poi2)}
+--     local poiequal = function(poi1, poi2)
+--         local arr1 = {GetPOITextureCoords(poi1)}
+--         local arr2 = {GetPOITextureCoords(poi2)}
 
-        for i = 1, 4 do
-            if arr1[i] ~= arr2[i] then
-                return false
-            end
-        end
+--         for i = 1, 4 do
+--             if arr1[i] ~= arr2[i] then
+--                 return false
+--             end
+--         end
 
-        return true
-    end
+--         return true
+--     end
 
-    -- this is tricky, cause during login, poi is not available. retry later
-    if poiequal(BattleZoneHelper.POI_ALLIANCE_TOWER, BattleZoneHelper.POI_ALLIANCE_GRAVEYARD) then
-        return
-    end
+--     -- this is tricky, cause during login, poi is not available. retry later
+--     if poiequal(BattleZoneHelper.POI_ALLIANCE_TOWER, BattleZoneHelper.POI_ALLIANCE_GRAVEYARD) then
+--         return
+--     end
 
-    do
-        local t = av:CreateTexture(nil, "BACKGROUND")
-        t:SetAtlas("alliance_icon_horde_flag-icon")
-        t:SetWidth(42)
-        t:SetHeight(42)
-        t:SetPoint("TOP", av, "TOP", -3, 0)
+--     do
+--         local t = av:CreateTexture(nil, "BACKGROUND")
+--         t:SetAtlas("alliance_icon_horde_flag-icon")
+--         t:SetWidth(42)
+--         t:SetHeight(42)
+--         t:SetPoint("TOP", av, "TOP", -3, 0)
 
-    end
+--     end
 
-    do
-        local t = av:CreateTexture(nil, "BACKGROUND")
-        t:SetPoint("TOP", av, "TOP", 15, -5)
-        t:SetWidth(16)
-        t:SetHeight(16)
-        t:SetTexture("Interface/Minimap/POIIcons")
+--     do
+--         local t = av:CreateTexture(nil, "BACKGROUND")
+--         t:SetPoint("TOP", av, "TOP", 15, -5)
+--         t:SetWidth(16)
+--         t:SetHeight(16)
+--         t:SetTexture("Interface/Minimap/POIIcons")
         
-        local x1, x2, y1, y2 = GetPOITextureCoords(BattleZoneHelper.POI_ALLIANCE_TOWER) -- Alliance Tower
-        t:SetTexCoord(x1, x2, y1, y2)
+--         local x1, x2, y1, y2 = GetPOITextureCoords(BattleZoneHelper.POI_ALLIANCE_TOWER) -- Alliance Tower
+--         t:SetTexCoord(x1, x2, y1, y2)
 
-        local l = av:CreateFontString(nil, "BACKGROUND", "GameFontNormalSmall")
-        l:SetPoint("TOPLEFT", t, "TOPLEFT", 20, -3)
-        l:SetText("?")
-        av.nums[10] = l
-    end
+--         local l = av:CreateFontString(nil, "BACKGROUND", "GameFontNormalSmall")
+--         l:SetPoint("TOPLEFT", t, "TOPLEFT", 20, -3)
+--         l:SetText("?")
+--         av.nums[10] = l
+--     end
 
-    do
-        local t = av:CreateTexture(nil, "BACKGROUND")
-        t:SetPoint("TOP", av, "TOP", 50, -5)
-        t:SetWidth(16)
-        t:SetHeight(16)
-        t:SetTexture("Interface/Minimap/POIIcons")
+--     do
+--         local t = av:CreateTexture(nil, "BACKGROUND")
+--         t:SetPoint("TOP", av, "TOP", 50, -5)
+--         t:SetWidth(16)
+--         t:SetHeight(16)
+--         t:SetTexture("Interface/Minimap/POIIcons")
         
-        local x1, x2, y1, y2 = GetPOITextureCoords(BattleZoneHelper.POI_ALLIANCE_GRAVEYARD) -- Alliance Graveyard 
-        t:SetTexCoord(x1, x2, y1, y2)
+--         local x1, x2, y1, y2 = GetPOITextureCoords(BattleZoneHelper.POI_ALLIANCE_GRAVEYARD) -- Alliance Graveyard 
+--         t:SetTexCoord(x1, x2, y1, y2)
 
-        local l = av:CreateFontString(nil, "BACKGROUND", "GameFontNormalSmall")
-        l:SetPoint("TOPLEFT", t, "TOPLEFT", 20, -3)
-        l:SetText("?")
-        av.nums[14] = l
-    end
+--         local l = av:CreateFontString(nil, "BACKGROUND", "GameFontNormalSmall")
+--         l:SetPoint("TOPLEFT", t, "TOPLEFT", 20, -3)
+--         l:SetText("?")
+--         av.nums[14] = l
+--     end
 
-    do
-        local t = av:CreateTexture(nil, "BACKGROUND")
-        t:SetAtlas("horde_icon_alliance_flag-icon")
-        t:SetWidth(42)
-        t:SetHeight(42)
-        t:SetPoint("TOP", av, "TOP", -3, -25)
-    end
+--     do
+--         local t = av:CreateTexture(nil, "BACKGROUND")
+--         t:SetAtlas("horde_icon_alliance_flag-icon")
+--         t:SetWidth(42)
+--         t:SetHeight(42)
+--         t:SetPoint("TOP", av, "TOP", -3, -25)
+--     end
 
-    do
-        local t = av:CreateTexture(nil, "BACKGROUND")
-        t:SetPoint("TOP", av, "TOP", 15, -27)
-        t:SetWidth(16)
-        t:SetHeight(16)
-        t:SetTexture("Interface/Minimap/POIIcons")
+--     do
+--         local t = av:CreateTexture(nil, "BACKGROUND")
+--         t:SetPoint("TOP", av, "TOP", 15, -27)
+--         t:SetWidth(16)
+--         t:SetHeight(16)
+--         t:SetTexture("Interface/Minimap/POIIcons")
         
-        local x1, x2, y1, y2 = GetPOITextureCoords(BattleZoneHelper.POI_HORDE_TOWER) -- Horde Tower
-        t:SetTexCoord(x1, x2, y1, y2)
+--         local x1, x2, y1, y2 = GetPOITextureCoords(BattleZoneHelper.POI_HORDE_TOWER) -- Horde Tower
+--         t:SetTexCoord(x1, x2, y1, y2)
 
-        local l = av:CreateFontString(nil, "BACKGROUND", "GameFontNormalSmall")
-        l:SetPoint("TOPLEFT", t, "TOPLEFT", 20, -3)
-        l:SetText("?")
-        av.nums[9] = l
-    end
+--         local l = av:CreateFontString(nil, "BACKGROUND", "GameFontNormalSmall")
+--         l:SetPoint("TOPLEFT", t, "TOPLEFT", 20, -3)
+--         l:SetText("?")
+--         av.nums[9] = l
+--     end
 
-    do
-        local t = av:CreateTexture(nil, "BACKGROUND")
-        t:SetPoint("TOP", av, "TOP", 50, -27)
-        t:SetWidth(16)
-        t:SetHeight(16)
-        t:SetTexture("Interface/Minimap/POIIcons")
+--     do
+--         local t = av:CreateTexture(nil, "BACKGROUND")
+--         t:SetPoint("TOP", av, "TOP", 50, -27)
+--         t:SetWidth(16)
+--         t:SetHeight(16)
+--         t:SetTexture("Interface/Minimap/POIIcons")
         
-        local x1, x2, y1, y2 = GetPOITextureCoords(BattleZoneHelper.POI_HORDE_GRAVEYARD) -- Horde Graveyard 
-        t:SetTexCoord(x1, x2, y1, y2)
+--         local x1, x2, y1, y2 = GetPOITextureCoords(BattleZoneHelper.POI_HORDE_GRAVEYARD) -- Horde Graveyard 
+--         t:SetTexCoord(x1, x2, y1, y2)
 
-        local l = av:CreateFontString(nil, "BACKGROUND", "GameFontNormalSmall")
-        l:SetPoint("TOPLEFT", t, "TOPLEFT", 20, -3)
-        l:SetText("?")
-        av.nums[12] = l
-    end        
+--         local l = av:CreateFontString(nil, "BACKGROUND", "GameFontNormalSmall")
+--         l:SetPoint("TOPLEFT", t, "TOPLEFT", 20, -3)
+--         l:SetText("?")
+--         av.nums[12] = l
+--     end        
 
-    av.created = true
-end
+--     av.created = true
+-- end
 
-local function UpdateAlteracNumbers()
-    if not BattleZoneHelper:IsInAlterac() then
-        return
-    end
+-- local function UpdateAlteracNumbers()
+--     if not BattleZoneHelper:IsInAlterac() then
+--         return
+--     end
 
-    CreateAlteracStatus()
+--     CreateAlteracStatus()
 
-    local data = BattleZoneHelper:GetAlteracPOI()
-    for _, l in pairs(f.av.nums) do
-        l:SetText("0")
-    end
+--     local data = BattleZoneHelper:GetAlteracPOI()
+--     for _, l in pairs(f.av.nums) do
+--         l:SetText("0")
+--     end
     
-    for t, n in pairs(data) do
-        if f.av.nums[t] then
-            f.av.nums[t]:SetText(n)
-        end
-    end
-end
+--     for t, n in pairs(data) do
+--         if f.av.nums[t] then
+--             f.av.nums[t]:SetText(n)
+--         end
+--     end
+-- end
 
 local function HideAll()
     f:Hide()
@@ -178,12 +178,6 @@ end
 
 local function ShowAll()
     f:Show()
-
-    if BattleZoneHelper:IsInAlterac() and not f.av.forcehide then
-        f.av:Show()
-    else
-        f.av:Hide()
-    end
 end
 
 local function OnUpdate()
@@ -200,9 +194,9 @@ local function OnUpdate()
     RequestBattlefieldScoreData()
 end
 
-RegEvent("AREA_POIS_UPDATED", function()
-    UpdateAlteracNumbers()
-end)
+-- RegEvent("AREA_POIS_UPDATED", function()
+--     UpdateAlteracNumbers()
+-- end)
 
 RegEvent("PLAYER_ENTERING_WORLD", function()
     spirittime = nil
@@ -213,7 +207,7 @@ RegEvent("PLAYER_ENTERING_WORLD", function()
     f.num:ClearAllPoints()
     f.num:Hide()
 
-    UpdateAlteracNumbers()
+    -- UpdateAlteracNumbers()
 
 end)
 
@@ -277,9 +271,9 @@ RegEvent("UPDATE_BATTLEFIELD_SCORE", function()
 
     f.num.stat = stat
 
-    if BattleZoneHelper:IsInAlterac() then
-        f.num:SetPoint("TOPLEFT", f, -35, 0)    
-    else
+    -- if BattleZoneHelper:IsInAlterac() then
+    --     f.num:SetPoint("TOPLEFT", f, -35, 0)    
+    -- else
 
         -- calibrate num pos
         local r = f
@@ -295,7 +289,7 @@ RegEvent("UPDATE_BATTLEFIELD_SCORE", function()
         end
 
         f.num:SetPoint("TOPLEFT", r, -15, 2)    
-    end    
+    -- end    
 
     if f.num.showing then
         f.num:Show()
