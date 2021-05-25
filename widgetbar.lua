@@ -186,6 +186,14 @@ local function OnUpdate()
         return
     end
 
+    -- enter av from other bg while UIWidgetTopCenterContainerFrame is not clean
+    for _, w in pairs({UIWidgetTopCenterContainerFrame:GetChildren()}) do
+        if not w:IsShown() then
+            HideAll()
+            return
+        end
+    end
+
     ShowAll()
     UpdatepiritHealerText()
 
@@ -309,7 +317,13 @@ RegEvent("ADDON_LOADED", function()
     --     end
     -- end
    
-
+    local setFontSize = function(l)
+        RegisterKeyChangedCallback("label_size", function(v)
+            if v > 0 then
+                l:SetTextHeight(v)
+            end
+        end)
+    end
 
 
     do
@@ -408,6 +422,8 @@ RegEvent("ADDON_LOADED", function()
             SendChatMessage(text, "INSTANCE_CHAT")
         end
 
+
+
         do
             local t =  CreateFrame("Frame", nil, num)
             t:SetPoint("TOPLEFT", num, 0, -7)
@@ -430,6 +446,7 @@ RegEvent("ADDON_LOADED", function()
             local l = t:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
             l:SetPoint("TOPLEFT", num, 0, -7)
             f.num.alliance = l
+            setFontSize(l)
             -- l:SetText("10")
         end
 
@@ -455,6 +472,7 @@ RegEvent("ADDON_LOADED", function()
             local l = t:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
             l:SetPoint("TOPLEFT", num, 0, -30)
             f.num.horde = l
+            setFontSize(l)
             -- l:SetText("20")
         end
 
@@ -472,6 +490,7 @@ RegEvent("ADDON_LOADED", function()
     do
         local l = f:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
         l:SetPoint("TOPLEFT", f.num, 42, -50)
+        setFontSize(l)
         f.elapselabel = l
         RegisterKeyChangedCallback("show_time_elapsed", function(v)
             if v then
@@ -485,6 +504,8 @@ RegEvent("ADDON_LOADED", function()
     do
         local l = f:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
         l:SetPoint("TOPLEFT", f.num, 42, 12)
+        setFontSize(l)
+
         f.spiritlabel = l
         RegisterKeyChangedCallback("show_spirit_heal", function(v)
             if v then
