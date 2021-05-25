@@ -7,12 +7,6 @@ ADDONSELF.Print = function(msg)
     DEFAULT_CHAT_FRAME:AddMessage("|CFFFF0000<|r|CFFFFD100BattleInfo|r|CFFFF0000>|r"..(msg or "nil"))
 end
 
-ADDONSELF.InBattleground = function()
-    -- return true
-    return UnitInBattleground("player")
-end
-
-
 ADDONSELF.CLASS_LOC = {}
 FillLocalizedClassList(ADDONSELF.CLASS_LOC)
 
@@ -53,6 +47,11 @@ BattleZoneHelper.MAPNAME_BGID_MAP = {
     [BattleZoneHelper.MAPNAME_ARATHI]  = BattleZoneHelper.BGID_ARATHI,
     [BattleZoneHelper.MAPNAME_STORM] = BattleZoneHelper.BGID_STORM,
 }
+
+ADDONSELF.InBattleground = function()
+    -- return true
+    return BattleZoneHelper.MAPNAME_BGID_MAP[GetRealZoneText()]
+end
 
 -- Alliance Tower 10
 -- Alliance Tower Half 8
