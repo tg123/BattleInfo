@@ -181,7 +181,7 @@ local function ShowAll()
 end
 
 local function OnUpdate()
-    if not ADDONSELF.InBattleground() then
+    if not ADDONSELF.InBattleground() or not UIWidgetTopCenterContainerFrame:GetChildren() then
         HideAll()
         return
     end
@@ -293,6 +293,8 @@ RegEvent("UPDATE_BATTLEFIELD_SCORE", function()
 
     if f.num.showing then
         f.num:Show()
+    else
+        f.num:Hide()
     end
 end)
 
@@ -307,18 +309,7 @@ RegEvent("ADDON_LOADED", function()
     --     end
     -- end
    
-    do
-        local l = f:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-        l:SetPoint("TOPLEFT", f, -15, 12)
-        f.spiritlabel = l
-        RegisterKeyChangedCallback("show_spirit_heal", function(v)
-            if v then
-                l:Show()
-            else
-                l:Hide()
-            end
-        end)
-    end
+
 
 
     do
@@ -480,9 +471,22 @@ RegEvent("ADDON_LOADED", function()
 
     do
         local l = f:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-        l:SetPoint("TOPLEFT", f, -15, -50)
+        l:SetPoint("TOPLEFT", f.num, 42, -50)
         f.elapselabel = l
         RegisterKeyChangedCallback("show_time_elapsed", function(v)
+            if v then
+                l:Show()
+            else
+                l:Hide()
+            end
+        end)
+    end
+
+    do
+        local l = f:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+        l:SetPoint("TOPLEFT", f.num, 42, 12)
+        f.spiritlabel = l
+        RegisterKeyChangedCallback("show_spirit_heal", function(v)
             if v then
                 l:Show()
             else
