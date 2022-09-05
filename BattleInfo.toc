@@ -1,4 +1,4 @@
-## Interface: 20501
+## Interface: 30400
 ## Title: Battle Info
 ## Title-deDE: @localization(locale="deDE", key="TITLE")@
 ## Title-esES: @localization(locale="esES", key="TITLE")@
@@ -29,8 +29,8 @@ locales.lua
 event.lua
 options.lua
 utils.lua
-quickjoin.lua
-newbattle.lua
+#quickjoin.lua
+#newbattle.lua
 widgetbar.lua
 auto.lua
 map.lua
