@@ -27,18 +27,27 @@ BattleZoneHelper.MAPNAME_ARATHI = C_Map.GetMapInfo(BattleZoneHelper.MAPID_ARATHI
 BattleZoneHelper.MAPID_STORM = 1956
 BattleZoneHelper.MAPNAME_STORM = C_Map.GetMapInfo(BattleZoneHelper.MAPID_STORM).name
 
--- ( 1 for Alterac Valley, 2 for Warsong Gulch, 3 for Arathi Basin, 4 for Eye of the Storm
+BattleZoneHelper.MAPID_STRAND = 128
+BattleZoneHelper.MAPNAME_STRAND = C_Map.GetMapInfo(BattleZoneHelper.MAPID_STRAND).name
+
+BattleZoneHelper.MAPID_CONQUEST = 169
+BattleZoneHelper.MAPNAME_CONQUEST = C_Map.GetMapInfo(BattleZoneHelper.MAPID_CONQUEST).name
+
+-- ( 1 for Alterac Valley, 2 for Warsong Gulch, 3 for Arathi Basin, 4 for Eye of the Storm, 5 for Strand of the Ancients, 6 for Isle of Conquest
 BattleZoneHelper.BGID_ALTERAC = 1
 BattleZoneHelper.BGID_WARSONG = 2
 BattleZoneHelper.BGID_ARATHI = 3
 BattleZoneHelper.BGID_STORM = 4
-
+BattleZoneHelper.BGID_STRAND = 5
+BattleZoneHelper.BGID_CONQUEST = 6
 
 BattleZoneHelper.BGID_MAPNAME_MAP = {
     [BattleZoneHelper.BGID_ALTERAC] = BattleZoneHelper.MAPNAME_ALTERAC,
     [BattleZoneHelper.BGID_WARSONG] = BattleZoneHelper.MAPNAME_WARSONG, 
     [BattleZoneHelper.BGID_ARATHI]  = BattleZoneHelper.MAPNAME_ARATHI,
     [BattleZoneHelper.BGID_STORM] = BattleZoneHelper.MAPNAME_STORM,
+    [BattleZoneHelper.BGID_STRAND] = BattleZoneHelper.MAPNAME_STRAND,
+    [BattleZoneHelper.BGID_CONQUEST] = BattleZoneHelper.MAPNAME_CONQUEST,
 }
 
 BattleZoneHelper.MAPNAME_BGID_MAP = {
@@ -46,6 +55,8 @@ BattleZoneHelper.MAPNAME_BGID_MAP = {
     [BattleZoneHelper.MAPNAME_WARSONG] = BattleZoneHelper.BGID_WARSONG,
     [BattleZoneHelper.MAPNAME_ARATHI]  = BattleZoneHelper.BGID_ARATHI,
     [BattleZoneHelper.MAPNAME_STORM] = BattleZoneHelper.BGID_STORM,
+    [BattleZoneHelper.MAPNAME_STRAND] = BattleZoneHelper.BGID_STRAND,
+    [BattleZoneHelper.MAPNAME_CONQUEST] = BattleZoneHelper.BGID_CONQUEST,
 }
 
 ADDONSELF.InBattleground = function()

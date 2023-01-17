@@ -29,9 +29,9 @@ f:SetBackdrop({
     insets = { left = 4, right = 4, top = 4, bottom = 4 },    
 })
 -- f:SetBackdropColor(0, 0, 0)
-f:SetPoint("TOPLEFT", HonorFrame or PVPFrame, "TOPRIGHT" , -30, -15)
-f:SetWidth(260)
-f:SetHeight((30 + panelheight + 10) * (BattleZoneHelper.IsBCC and 4 or 3))
+f:SetPoint("TOPLEFT", HonorFrame or PVPFrame, "TOPRIGHT" , -30, -12)
+f:SetWidth(495)
+f:SetHeight((30 + panelheight + 10) * (BattleZoneHelper.IsBCC and 4 or 3) + 7)
 
 local loc = 30 + panelheight
 local function nextloc()
@@ -45,14 +45,17 @@ end
 
 local labels = {}
 
-local function DrawStat(bgid)
-
+local function DrawStat(bgid, i)
     local p = CreateFrame("Frame", nil, f, BackdropTemplateMixin and "BackdropTemplate" or nil)
     p:SetBackdrop({ 
         edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
         edgeSize = 16,
-    })    
-    p:SetPoint("TOPLEFT", f, 15, -15 + nextloc())
+    })
+    local columnOffset = 235 * math.floor(i / 3)
+    if i % 3 == 0 then
+        loc = 30 + panelheight  -- start new column at the top
+    end
+    p:SetPoint("TOPLEFT", f, 15 + columnOffset, -15 + nextloc())
     p:SetWidth(230)
     p:SetHeight(30 + panelheight + 10)
 
@@ -202,12 +205,14 @@ end)
 RegEvent("ADDON_LOADED", function()
     BatteInfoStat = BatteInfoStat or {}
 
+    local i = 0
     for _, id in pairs(BattleZoneHelper.MAPNAME_BGID_MAP) do
         BatteInfoStat[id] = BatteInfoStat[id] or {
             start = time(),
         }
 
-        DrawStat(id)
+        DrawStat(id, i)
+        i = i + 1
     end
 
     UpdateStatLabels()
