@@ -1,4 +1,4 @@
-## Interface: 30401
+## Interface: 11500
 ## Title: Battle Info
 ## Title-deDE: @localization(locale="deDE", key="TITLE")@
 ## Title-esES: @localization(locale="esES", key="TITLE")@

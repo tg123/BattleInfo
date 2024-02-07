@@ -15,23 +15,32 @@ ADDONSELF.BattleZoneHelper = BattleZoneHelper
 
 BattleZoneHelper.IsBCC = (_G.WOW_PROJECT_ID == _G.WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
 
+local function GetMapInfoSafe (id)
+    local info = C_Map.GetMapInfo(id)
+    if info then
+        return info.name
+    end
+    
+    return ""
+end
+
 BattleZoneHelper.MAPID_ALTERAC = 1459
-BattleZoneHelper.MAPNAME_ALTERAC = C_Map.GetMapInfo(BattleZoneHelper.MAPID_ALTERAC).name
+BattleZoneHelper.MAPNAME_ALTERAC = GetMapInfoSafe(BattleZoneHelper.MAPID_ALTERAC)
 
 BattleZoneHelper.MAPID_WARSONG = 1460
-BattleZoneHelper.MAPNAME_WARSONG = C_Map.GetMapInfo(BattleZoneHelper.MAPID_WARSONG).name
+BattleZoneHelper.MAPNAME_WARSONG = GetMapInfoSafe(BattleZoneHelper.MAPID_WARSONG)
 
 BattleZoneHelper.MAPID_ARATHI = 1461
-BattleZoneHelper.MAPNAME_ARATHI = C_Map.GetMapInfo(BattleZoneHelper.MAPID_ARATHI).name
+BattleZoneHelper.MAPNAME_ARATHI = GetMapInfoSafe(BattleZoneHelper.MAPID_ARATHI)
 
 BattleZoneHelper.MAPID_STORM = 1956
-BattleZoneHelper.MAPNAME_STORM = C_Map.GetMapInfo(BattleZoneHelper.MAPID_STORM).name
+BattleZoneHelper.MAPNAME_STORM = GetMapInfoSafe(BattleZoneHelper.MAPID_STORM)
 
 BattleZoneHelper.MAPID_STRAND = 128
-BattleZoneHelper.MAPNAME_STRAND = C_Map.GetMapInfo(BattleZoneHelper.MAPID_STRAND).name
+BattleZoneHelper.MAPNAME_STRAND = GetMapInfoSafe(BattleZoneHelper.MAPID_STRAND)
 
 BattleZoneHelper.MAPID_CONQUEST = 169
-BattleZoneHelper.MAPNAME_CONQUEST = C_Map.GetMapInfo(BattleZoneHelper.MAPID_CONQUEST).name
+BattleZoneHelper.MAPNAME_CONQUEST = GetMapInfoSafe(BattleZoneHelper.MAPID_CONQUEST)
 
 -- ( 1 for Alterac Valley, 2 for Warsong Gulch, 3 for Arathi Basin, 4 for Eye of the Storm, 5 for Strand of the Ancients, 6 for Isle of Conquest
 BattleZoneHelper.BGID_ALTERAC = 1
@@ -58,6 +67,8 @@ BattleZoneHelper.MAPNAME_BGID_MAP = {
     [BattleZoneHelper.MAPNAME_STRAND] = BattleZoneHelper.BGID_STRAND,
     [BattleZoneHelper.MAPNAME_CONQUEST] = BattleZoneHelper.BGID_CONQUEST,
 }
+
+
 
 ADDONSELF.InBattleground = function()
     -- return true

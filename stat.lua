@@ -211,8 +211,14 @@ RegEvent("ADDON_LOADED", function()
             start = time(),
         }
 
-        DrawStat(id, i)
-        i = i + 1
+        if BattleZoneHelper.BGID_MAPNAME_MAP[id] ~= "" then
+            DrawStat(id, i)
+            i = i + 1
+        end
+    end
+
+    if i <= 3 then
+        f:SetWidth(260)
     end
 
     UpdateStatLabels()
