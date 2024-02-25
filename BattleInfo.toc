@@ -1,4 +1,7 @@
-## Interface: 11500
+## Interface: 30403
+## Interface-Classic: 11501
+## X-Curse-Project-ID: 354439
+## X-Wago-ID: QN5mQ7NB
 ## Title: Battle Info
 ## Title-deDE: @localization(locale="deDE", key="TITLE")@
 ## Title-esES: @localization(locale="esES", key="TITLE")@
